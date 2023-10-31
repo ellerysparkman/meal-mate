@@ -17,7 +17,11 @@
     </head>  
 
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <!-- center the logo on the top-->
+    <header>
+        <img src="images/mealmate-logo.png" alt="Mealmate logo" width="350" height="100">
+    </header>
+        <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="images/mealmate-logo.png" alt="Mealmate logo" width="350" height="100">
@@ -47,18 +51,27 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> -->
         <!-- simple descriptive home page -->
+        <h1><?=$message?></h1>
         <div class="row jumbotron">
             <div class="col jumbotron-image">
                 <img style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
             </div>
             <div class= "col jumbotron-text">
-                <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate!</h1>
+                <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate, <?=$name?>!</h1>
                 <p style="font-weight: bold; color: rgb(231, 230, 206)" class="myfont-alt">This can be your calendar, cookbook, and Pinterest board all in one. Plan your meals for the week with our easy-to-use calendar feature. Share your favorite recipes with friends. Add recipes to your cookbook that you want to cook again. Start today! </p>
                 <div class="btn addmeal-btn">
                     <!-- Start button leads to calendar to add a recipe, but later it will lead to an account/profile page-->
-                    <a class="myfont" href="calendar.html">Get Started!</a>
+                    <a class="myfont" href="/calendar.html">Go to your calendar!</a>
+
+ 
+        </div>
+    </div>
+
+
+
+
                 </div>
             </div>
         </div>
