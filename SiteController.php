@@ -23,26 +23,30 @@ class SiteController {
         switch($command){
             case "login":
                 $this->login();
+                break;
             case "register":
                 $this->register();
+                break;
             case "enter":
                 $this->showHomePage();
                 break;
-            case "guess":
-                $this->submitGuess();
-                break;
-            case "quit":
-                $this->showGameOver();
+            case "cookbook":
+                $this->showCookbook();
                 break;
             case "logout":
                 $this->logout();
+                break;
+            case "addrecipe":
+                $this->addRecipe();
+                break;
             default:
                 $this->showWelcome();
                 break;
         }
     }
 
-    public function showWelcome(){       
+    public function showWelcome(){     
+        $m = $this->getUsers();  
         $message = "";
         if (!empty($this->errorMessage))
             $message .= "<p class='alert alert-danger'>".$this->errorMessage."</p>";
@@ -66,39 +70,7 @@ class SiteController {
     }
 
 
-    public function submitGuess() {
-        $message = "";
 
-        $words = $_SESSION['words'];
-        $answers = $_SESSION["answers"];
-        
-        // FIND CATEGORY COUNTS
-        // initialize all to 0
-        $catCounts = [];
-        foreach ($answers as $key => $value) {
-            $catCounts[$key] = 0;
-        }    
-        // make sure guess is legit   
-        if (isset($_POST["guess"])) {
-            $guess = $_POST["guess"];}
-        else {
-            die("You did not input a guess.");
-        }
-        
-        $toprint = implode(', ', $guessWordArray);
-        // print guess regardless
-        $_SESSION["guesses"] = $_SESSION["guesses"] . " \n" . "Guess: " . $toprint . " --> " . $wordsAway . " away.";
-        $_SESSION["num_guesses"] += 1;
-
-        if (count($words)==0){
-            $this->showGameOver();
-        }
-        else {
-        $this->showGame($message, $words, $answers);
-        }
-     
-
-    }
 
     public function login(){
         // user enters email
@@ -147,8 +119,8 @@ class SiteController {
                         $this->errorMessage = "Invalid email format";
                      }
                      else {
-                        $this->db->query("insert into users (email, password) values ($1, $2);",
-                            $_POST["email"], password_hash($_POST["passwd"], PASSWORD_DEFAULT), 0);
+                        $this->db->query("insert into users (name, email, password, array) values ($1, $2, $3, $4);",
+                            $_POST["fullname"], $_POST["email"], password_hash($_POST["passwd"], PASSWORD_DEFAULT), '{}');
                         $_SESSION["name"] = $_POST["fullname"];
                         $_SESSION["email"] = $_POST["email"];
                         // Send user to the appropriate page (homepage)
@@ -171,11 +143,25 @@ class SiteController {
     public function addRecipe(){
         // if isset recipe
         // add recipe to user
-        if(isset($_POST["fullname"]) && !empty($_POST["fullname"])){
-                return;
+        if(isset($_POST["recipeNameInput"]) && !empty($_POST["recipeNameInput"])){
+            $res = $this->db->query("select * from recipes where name = $1;", $_POST["recipeNameInput"]);
+            if (empty($res)){
+                $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4 $5, $6);",
+                            $_POST["recipeNameInput"], "", $_POST["ingredientsInput"], $_POST["tagsInput"], "", "");
+                // Send user to the appropriate page (homepage)
+                header("Location: ?command=cookbook");
+                return;}
+            else {
+                $this->errorMessage = "A recipe under that name already exists in your cookbook!";
+            }
         }
-
+        else {
+            $this->errorMessage = "You need to name your recipe before submitting!"
+        }
+        this->addRecipe();
     }
+
+
 
     public function getUsers(){
         $message = "";
@@ -189,8 +175,6 @@ class SiteController {
             return $message;
         }
     }
-
-
 
 
     public function logout(){

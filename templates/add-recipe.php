@@ -48,24 +48,6 @@
             <h1 class="myfont btn-marg">Add to Cookbook</h1>
             <!--This is the container for all of the input fields.-->
 
-            <form action="?command=register" method="post">
-                <div class="mb-3">
-                    <label for="fullname" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" name="fullname">
-                </div>
-    
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3">
-                    <label for="passwd" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="passwd" name="passwd">
-                </div>
-    
-                <button type="submit" class="btn btn-primary">Start!</button>
-
-
 
 
             <form class="container" action = "?command=addrecipe" method="post">

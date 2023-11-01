@@ -30,6 +30,9 @@
 
 <body>
 
+<p><?=$m?></p>
+
+
 <div class="container" style="margin-top: 15px;">
     <div class="row col-xs-12">
         <h1>Welcome to mealmate!</h1>

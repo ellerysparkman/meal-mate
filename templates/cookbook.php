@@ -22,7 +22,7 @@
             <!--The links in the navbar that lead to pages that don't exist are set as disabled-->
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="/meal-mate/templates/homepage.php">
                         <img src="../images/mealmate-logo.png" alt="Meal mate logo" width="350" height="100">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="calendar.html">Calendar</a>
+                                <a class="nav-link" href="/meal-mate/templates/calendar.php">Calendar</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-disabled="true">Feed</a>
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn addmeal-btn myfont" href="add-recipe.html" role="button">Add a meal!</a>
+                        <a class="btn addmeal-btn myfont" href="add-recipe.php" role="button">Add a meal!</a>
                     </div>
                 </div>
                 <!--This is the column with the grid of recipies.  Three should be in a row on a large screen.-->
