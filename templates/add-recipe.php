@@ -48,8 +48,6 @@
             <h1 class="myfont btn-marg">Add to Cookbook</h1>
             <!--This is the container for all of the input fields.-->
 
-
-
             <form class="container" action = "?command=addrecipe" method="post">
                 <div class="row g-3">
                     <div class="col-lg-3">

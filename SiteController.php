@@ -156,7 +156,7 @@ class SiteController {
             }
         }
         else {
-            $this->errorMessage = "You need to name your recipe before submitting!"
+            $this->errorMessage = "You need to name your recipe before submitting!";
         }
         this->addRecipe();
     }
