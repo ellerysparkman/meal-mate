@@ -12,6 +12,7 @@
     $password = "cs4640LocalUser!";
 
 
+
     $dbHandle = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
 
 
@@ -74,7 +75,7 @@
 
 
     $res = pg_prepare($dbHandle, "myinsert2", "insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);");
-    $res = pg_execute($dbHandle, "myinsert2", ["Pancakes", "Make for breakfast", '{eggs, milk, sugar}', '{sweet, fast, easy, breakfast}', "first mix flour and sugar in a medium bowl", 1]);
+    $res = pg_execute($dbHandle, "myinsert2", ["Burrito", "Make for breakfast", '{eggs, milk, sugar}', '{sweet, fast, easy, breakfast}', "first mix flour and sugar in a medium bowl", 1]);
     $result = pg_query($dbHandle, "select * from recipes");
     $arraya = pg_fetch_assoc($result);
     var_dump($arraya);

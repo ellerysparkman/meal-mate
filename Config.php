@@ -8,3 +8,4 @@ class Config {
         "database" => "example"
     ];
 }
+

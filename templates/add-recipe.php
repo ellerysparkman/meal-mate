@@ -10,14 +10,14 @@
             <meta name="keywords" content="cookbook online meal prep planning recipes ingredients">   
             <title>Add recipe</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">      
-            <link rel="stylesheet" href="../styles/main.css">
+            <link rel="stylesheet" href="styles/main.css">
         </head>  
         <body>
             <!--The links in the navbar that lead to pages that don't exist are set as disabled-->
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="index.html">
-                        <img src="../images/mealmate-logo.png" alt="Meal mate logo" width="350" height="100">
+                    <a class="navbar-brand" href="?command=enter">
+                        <img src="images/mealmate-logo.png" alt="Meal mate logo" width="350" height="100">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -25,20 +25,20 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link"  href="calendar.html">Calendar</a>
+                                <a class="nav-link"  href="?command=calendar">Calendar</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-disabled="true">Feed</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="cookbook.html">Cookbook</a>
+                                <a class="nav-link active" aria-current="page" href="?command=cookbook">Cookbook</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-disabled="true">About us</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-disabled="true">
-                                    <img src="../images/profile-pic.png" alt="Profile picture" width="20" height="20">
+                                    <img src="images/profile-pic.png" alt="Profile picture" width="20" height="20">
                                 </a>
                             </li>
                         </ul>
@@ -61,8 +61,8 @@
                         <div class="mb-3">
                             <label for="ingredientsInput" class="form-label myfont">Ingredients</label>
                             <ul>
-                                <li class="myfont">2 large eggs</li>
-                                <li class="myfont">1.5 cups flour</li>
+                                <li class="myfont"></li>
+                                <li class="myfont"></li>
                             </ul>
                             <input type="text" class="form-control myfont" id="ingredientsInput" placeholder="New ingredient">
                         </div>
@@ -71,39 +71,39 @@
                         <div class="mb-3">
                             <label for="tagsInput" class="form-label myfont">Tags</label>
                             <ul>
-                                <li class="myfont">Breakfast</li>
-                                <li class="myfont">Sweet</li>
+                                <li class="myfont"></li>
+                                <li class="myfont"></li>
                             </ul>
                             <input type="text" class="form-control myfont" id="tagsInput" placeholder="New tag">
                         </div>
                     </div>
                     <div class="col-lg-4">
+                        <p class="myfont">Add an image for the recipe card!</p>
                         <div class="input-group mb-3">
                             <input type="file" class="form-control myfont" id="recipeImageFile">
-                            <label class="input-group-text myfont" for="recipeImageFile">Upload</label>
+                            <label for="recipeImageFile"class="input-group-text myfont" >Upload</label>
                         </div>
                     </div>
                 </div>
                 <div class="row g-3">
-                    <!--For now, the button just links back to the cookbook page.
-                    On medium sized screens and smaller, the button reorders to be last-->
-                    <div class="col-md-2 order-3 order-md-1">
-                        <a class="btn addmeal-btn myfont" href="cookbook.html" role="button">Add</a>
-                    </div>
-                    <div class="col-md-5 order-1 order-md-2">
-                        <div class="form-floating">
-                            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" id="notesTextarea" style="height: 350px"></textarea>
-                            <label class="myfont" for="notesTextarea">Notes</label>
-                        </div>
-                    </div>
-                    <div class="col-md-5 order-2 order-md-3">
-                        <div class="form-floating">
-                            <textarea class="form-control myfont" placeholder="Write the recipe here" id="recipeTextarea" style="height: 350px"></textarea>
-                            <label class="myfont" for="recipeTextarea">Recipe</label>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <div class="col-md-5 order-1 order-md-1">
+        <div class="form-floating">
+            <textarea class="form-control myfont" placeholder="Write the recipe here" id="recipeTextarea" style="height: 350px"></textarea>
+            <label class="myfont" for="recipeTextarea">Recipe</label>
+        </div>
+    </div>
+    <div class="col-md-5 order-2 order-md-2">
+        <div class="form-floating">
+            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" id="notesTextarea" style="height: 350px"></textarea>
+            <label class="myfont" for="notesTextarea">Notes</label>
+        </div>
+    </div>
+        <div class="col-md-2 order-3 order-md-3">
+            <button type="submit" class="btn addmeal-btn myfont">Add to Cookbook!</button>
+
+        </div>
+    </div>
+                </form>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         </body>
     </html>

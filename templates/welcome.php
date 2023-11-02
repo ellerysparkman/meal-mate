@@ -1,20 +1,3 @@
-<!-- <?php 
-
-
-// if(isset($_POST['submit'])&&!empty($_POST['submit'])){
-    
-//     // $hashpassword = md5($_POST['pwd']);
-//     $sql ="select *from public.user where email = '".pg_escape_string($_POST['email'])."' and password ='".pg_escape_string($_POST['pwd'])."'";
-//     $data = pg_query($dbconn,$sql); 
-//     $login_check = pg_num_rows($data);
-//     if($login_check > 0){ 
-        
-//         echo "Login Successfully";    
-//     }else{ 
-//         echo "Invalid Details";
-//     }
-// }
-?> -->
 
 
 <!DOCTYPE html>
@@ -25,12 +8,13 @@
   <meta name="author" content="ELlery Sparkman">
   <meta name="description" content="Login Page">  
   <title>MealMate Welcome Page</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">       
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
+       
 </head>
 
 <body>
 
-<p><?=$m?></p>
 
 
 <div class="container" style="margin-top: 15px;">

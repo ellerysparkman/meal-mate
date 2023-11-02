@@ -14,7 +14,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
         <meta name="description" content="Homepage for MealMate">
         <meta name="keywords" content = "meal prep, online cookbook, recipes, meal planning">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">      
-        <link rel="stylesheet" type="text/css" href="../styles/main.css">
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
         <title>MealMate Calendar</title>   
         <style>
             body {
@@ -26,8 +26,8 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/meal-mate/templates/homepage.php">
-                    <img src="../images/mealmate-logo.png" alt="Mealmate logo" width="350" height="100">
+                <a class="navbar-brand" href="?command=enter">
+                    <img src="images/mealmate-logo.png" alt="Mealmate logo" width="350" height="100">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -41,14 +41,14 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             <a class="nav-link" aria-disabled="true">Feed</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/meal-mate/templates/cookbook.php">Cookbook</a>
+                            <a class="nav-link" href="?command=cookbook">Cookbook</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-disabled="true">About us</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-disabled="true">
-                                <img src="../images/profile-pic.png" alt="Profile picture" width="20" height="20">
+                                <img src="images/profile-pic.png" alt="Profile picture" width="20" height="20">
                             </a>
                         </li>
                     </ul>
