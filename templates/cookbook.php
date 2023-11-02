@@ -108,18 +108,24 @@
                 <!--This is the column with the grid of recipies.  Three should be in a row on a large screen.-->
                 <div class="col">
                     <div class="container cookbook">
+                        <?php 
+                            // get recipes
+                            print_r($recipes);
+                            // show them in grid
+                            // for recipe in recipe
+                        ?> 
                         <div class="row btn-marg">
                             <div class="col justify-self-start">
-                                <form action="?command=welcome" method="post">
-                                    <input type="hidden" name="testmess" value="The card link with hidden field worked!">
                                     <div class="card recipe">
                                         <img src="images/dal.jpg" class="card-img-top cookbook-img" alt="A pot of dal.">
                                         <div class="card-body">
                                             <h4 class="myfont-alt">Vegetarian, Vegan, Healthy</h4>
-                                            <h3 class="card-title myfont">Best Homemade Dal</h3>
+                                            <form action="?command=welcome" method="post">
+                                                <input type="hidden" name="testmess" value="The card link with hidden field worked!">
+                                                <h3 class="card-title myfont">Best Homemade Dal</h3>
+                                            </form>
                                         </div>
                                     </div>
-                                </form>
                             </div>
                             <div class="col justify-self-center">
                                 <div class="card recipe">

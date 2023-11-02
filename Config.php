@@ -4,7 +4,7 @@ class Config {
         "host" => "localhost",
         "port" => 5432,
         "user" => "msh3dvn",
-        "pass" => "",
+        "pass" => "iwes5ccRPh8H",
         "database" => "msh3dvn"
     ];
 }

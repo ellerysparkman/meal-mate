@@ -8,7 +8,7 @@
     $port = "5432";
     $database = "msh3dvn";
     $user = "msh3dvn";
-    $password = ""; 
+    $password = "iwes5ccRPh8H"; 
 
     $dbHandle = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
 
