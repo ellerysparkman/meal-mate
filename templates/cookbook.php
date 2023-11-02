@@ -126,7 +126,7 @@
                                                     //}
                                                 ?>
                                                 <h4 class="myfont-alt"><?=$tagStr?></h4>
-                                                <form action="?command=welcome" method="post">
+                                                <form action="?command=viewrecipe" method="post">
                                                     <input type="hidden" name="recipe_id" value=<?=$v["recipe_id"]?>>
                                                     <button type="submit" class="card-title myfont"><?=$v["name"]?></button>
                                                 </form>

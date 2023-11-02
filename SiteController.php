@@ -52,6 +52,12 @@ class SiteController {
             case "viewrecipe":
                 $this->showRecipe();
                 break;
+            case "edit":
+                $this->editRecipe();
+                break;
+            case "delete":
+                $this->deleteRecipe();
+                break;
             default:
                 $this->showWelcome();
                 break;
@@ -68,10 +74,6 @@ class SiteController {
         if(isset($_SESSION["name"])){
             $name = $_SESSION["name"];
             $loggedIn = true;
-        }
-
-        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
-            $message = "The hidden value worked, the id was: " . $_POST["recipe_id"];
         }
 
         include("templates/welcome.php");
@@ -119,18 +121,44 @@ class SiteController {
         include ("templates/add-recipe.php");
     }
 
-    public function showRecipe($recipeId){
-        $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
-        return;
+    public function showRecipe(){
+
+        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $recipeID = $_POST["recipe_id"];
+            $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
+            if (!empty($res)){
+                $currRecipe = $res;
+            }
+            else {
+                header("Location: ?command=cookbook");
+            }
+        }
+        else {
+            header("Location: ?command=cookbook");
+        }
+
+        include ("templates/show-recipe.php");
     }
 
-    //public function editRecipe($recipeId, ...$param){
-        // TO DO 
-        //$ingredients = {};
-        //$instructions = {};
-        //$res = $this->db->query("update recipes set ingredients = $1, instructions = $2 where recipe_id = $3;", $ingredients, $instructions, $recipeID);
-        //$this->showRecipe();
-    //}
+    //This will show the edit screen.  For the edit logic, just have a hidden field checking if its 
+    //insert or edit and then check that and use the insert recipe function again
+    public function editRecipe(){
+        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $recipeID = $_POST["recipe_id"];
+            $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
+            if (!empty($res)){
+                $currRecipe = $res;
+            }
+            else {
+                header("Location: ?command=cookbook");
+            }
+        }
+        else {
+            header("Location: ?command=cookbook");
+        }
+
+        include ("templates/edit-recipe.php");
+    }
 
     //public function deleteRecipe($recipeId){
         //$res = $this->db->query("delete from recipes where recipe_id = $1;", $recipeId);

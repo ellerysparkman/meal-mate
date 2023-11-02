@@ -43,8 +43,6 @@
                 </div>
             </div>
         </nav>
-        <h1>Here is the message!</h1>
-        <?=$message?>
         <?php if($loggedIn) : ?>
             <div class="container" style="margin-top: 15px;">
                 <div class="row col-xs-12">
