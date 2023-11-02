@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn addmeal-btn myfont" href="?command=addrecipe" role="button">Add a meal!</a>
+                        <a class="btn addmeal-btn myfont" href="?command=showadd" role="button">Add a meal!</a>
                     </div>
                 </div>
                 <!--This is the column with the grid of recipies.  Three should be in a row on a large screen.-->
@@ -124,7 +124,7 @@
                                     <img src="images/dal.jpg" class="card-img-top cookbook-img" alt="A pot of dal.">
                                     <div class="card-body">
                                         <h4 class="myfont-alt">Vegetarian, Vegan, Healthy</h4>
-                                        <h3 class="card-title myfont">Best Homemade Dal</h3>
+                                        <a class="nav-link card-title myfont" href = "?command=showrecipe&recipe_id=<?php echo $recipes[0]['recipe_id'];?> " >Best Homemade Dal</a>
                                     </div>
                                 </div>
                             </div>

@@ -46,6 +46,8 @@
                 </div>
             </nav>
             <h1 class="myfont btn-marg">Add to Cookbook</h1>
+            <?php if($loggedIn) : ?>
+
             <!--This is the container for all of the input fields.-->
 
             <form class="container" action = "?command=addrecipe" method="post">
@@ -53,7 +55,7 @@
                     <div class="col-lg-3">
                         <div class="mb-3">
                             <label for="recipeNameInput" class="form-label myfont">Recipe name</label>
-                            <input type="text" class="form-control myfont" id="recipeNameInput" placeholder="Name" required>
+                            <input type="text" class="form-control myfont" name="recipeNameInput" id="recipeNameInput" placeholder="Name" required>
                         </div>
                     </div>
                     <!--The tags/ingredients lists should grow as the user hits enter.  The ingredients list should check that it starts with a number.-->
@@ -64,7 +66,7 @@
                                 <li class="myfont"></li>
                                 <li class="myfont"></li>
                             </ul>
-                            <input type="text" class="form-control myfont" id="ingredientsInput" placeholder="New ingredient">
+                            <input type="text" class="form-control myfont" name="ingredientsInput"id="ingredientsInput" placeholder="New ingredient">
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -74,13 +76,13 @@
                                 <li class="myfont"></li>
                                 <li class="myfont"></li>
                             </ul>
-                            <input type="text" class="form-control myfont" id="tagsInput" placeholder="New tag">
+                            <input type="text" class="form-control myfont" name="tagsInput"id="tagsInput" placeholder="New tag">
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <p class="myfont">Add an image for the recipe card!</p>
                         <div class="input-group mb-3">
-                            <input type="file" class="form-control myfont" id="recipeImageFile">
+                            <input type="file" class="form-control myfont" name="recipeImageFile" id="recipeImageFile">
                             <label for="recipeImageFile"class="input-group-text myfont" >Upload</label>
                         </div>
                     </div>
@@ -88,13 +90,13 @@
                 <div class="row g-3">
     <div class="col-md-5 order-1 order-md-1">
         <div class="form-floating">
-            <textarea class="form-control myfont" placeholder="Write the recipe here" id="recipeTextarea" style="height: 350px"></textarea>
+            <textarea class="form-control myfont" placeholder="Write the recipe here" name="recipeTextarea" id="recipeTextarea" style="height: 350px"></textarea>
             <label class="myfont" for="recipeTextarea">Recipe</label>
         </div>
     </div>
     <div class="col-md-5 order-2 order-md-2">
         <div class="form-floating">
-            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" id="notesTextarea" style="height: 350px"></textarea>
+            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" name="notesTextarea" id="notesTextarea" style="height: 350px"></textarea>
             <label class="myfont" for="notesTextarea">Notes</label>
         </div>
     </div>
@@ -103,7 +105,10 @@
 
         </div>
     </div>
+    
                 </form>
+             <?php endif; ?>
+
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         </body>
     </html>

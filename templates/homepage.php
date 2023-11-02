@@ -61,6 +61,8 @@
                     <a class="myfont" href="?command=calendar">Go to your calendar!</a>
                 </div>
                 <h1><?=$message?></h1>
+                <h1><?=$m1?></h1>
+
 
     </div>
 
