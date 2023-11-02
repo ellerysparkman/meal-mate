@@ -18,10 +18,7 @@
 
     <body>
         <!-- center the logo on the top-->
-    <header>
-        <img src="images/mealmate-logo.png" alt="Mealmate logo" width="350" height="100">
-    </header>
-        <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="images/mealmate-logo.png" alt="Mealmate logo" width="350" height="100">
@@ -32,49 +29,58 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="calendar.html">Calendar</a>
+                            <a class="nav-link" href="?command=calendar">Calendar</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-disabled="true">Feed</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="cookbook.html">Cookbook</a>
+                            <a class="nav-link" href="?command=cookbook">Cookbook</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-disabled="true">About us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-disabled="true">
+                            <!-- This would normally lead to a profile page, but currently just leads to the log in/out page -->
+                            <a class="nav-link" href="?command=welcome">
                                 <img src="images/profile-pic.png" alt="Profile picture" width="20" height="20">
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav> -->
-        <!-- simple descriptive home page -->
-        <h1><?=$message?></h1>
-        <div class="row jumbotron">
-            <div class="col jumbotron-image">
-                <img style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
-            </div>
-            <div class= "col jumbotron-text">
-                <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate, <?=$name?>!</h1>
-                <p style="font-weight: bold; color: rgb(231, 230, 206)" class="myfont-alt">This can be your calendar, cookbook, and Pinterest board all in one. Plan your meals for the week with our easy-to-use calendar feature. Share your favorite recipes with friends. Add recipes to your cookbook that you want to cook again. Start today! </p>
-                <div class="btn addmeal-btn">
-                    <!-- Start button leads to calendar to add a recipe, but later it will lead to an account/profile page-->
-                    <a class="myfont" href="/calendar.html">Go to your calendar!</a>
-
- 
-        </div>
-    </div>
-
-
-
-
+        </nav>
+        <!-- If user is logged in, greet them -->
+        <?php if($loggedIn) : ?>
+            <div class="row jumbotron">
+                <div class="col jumbotron-image">
+                    <img style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
+                </div>
+                <div class= "col jumbotron-text">
+                    <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate, <?=$name?>!</h1>
+                    <p style="font-weight: bold; color: rgb(231, 230, 206)" class="myfont-alt">This can be your calendar, cookbook, and Pinterest board all in one. Plan your meals for the week with our easy-to-use calendar feature. Share your favorite recipes with friends. Add recipes to your cookbook that you want to cook again. Start today! </p>
+                    <div class="btn addmeal-btn">
+                        <!-- Button leads to the user's cookbook-->
+                        <a class="myfont" href="?command=cookbook">Go to your cookbook!</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        <!-- If user isn't logged in, direct them to do so-->
+        <?php else : ?>
+            <div class="row jumbotron">
+                <div class="col jumbotron-image">
+                    <img style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
+                </div>
+                <div class= "col jumbotron-text">
+                    <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate!</h1>
+                    <p style="font-weight: bold; color: rgb(231, 230, 206)" class="myfont-alt">This can be your calendar, cookbook, and Pinterest board all in one. Plan your meals for the week with our easy-to-use calendar feature. Share your favorite recipes with friends. Add recipes to your cookbook that you want to cook again. Start today! </p>
+                    <div class="btn addmeal-btn">
+                        <!-- Button leads to log in page-->
+                        <a class="myfont" href="?command=welcome">Log in!</a>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -33,8 +33,17 @@ class SiteController {
             case "enter":
                 $this->showHomePage();
                 break;
+            case "cookbook":
+                $this->showCookbook();
+                break;
             case "logout":
                 $this->logout();
+                break;
+            case "addrecipe":
+                $this->addRecipe();
+                break;
+            case "calendar":
+                $this->showCalendar();
                 break;
             default:
                 $this->showWelcome();
@@ -46,6 +55,18 @@ class SiteController {
         $message = "";
         if (!empty($this->errorMessage))
             $message .= "<p class='alert alert-danger'>".$this->errorMessage."</p>";
+
+        $loggedIn = false;
+
+        if(isset($_SESSION["name"])){
+            $name = $_SESSION["name"];
+            $loggedIn = true;
+        }
+
+        if (isset($_POST["testmess"]) && !empty($_POST["testmess"])){
+            $message = $_POST["testmess"];
+        }
+
         include("templates/welcome.php");
     }
 
@@ -54,13 +75,24 @@ class SiteController {
     }
 
     public function showCookbook(){
-        include ("templates/cookbook.html");
+        $loggedIn = false;
+
+        if(isset($_SESSION["name"])){
+            $name = $_SESSION["name"];
+            $loggedIn = true;
+        }
+
+        include ("templates/cookbook.php");
     }
 
     public function showHomePage(){
-        $name = $_SESSION["name"];
-        $email = $_SESSION["email"];
-        $message = $this->getUsers();
+
+        $loggedIn = false;
+
+        if(isset($_SESSION["name"])){
+            $name = $_SESSION["name"];
+            $loggedIn = true;
+        }
 
         include ("templates/homepage.php");
     }
@@ -158,6 +190,7 @@ class SiteController {
     public function logout(){
         session_destroy();
         session_start();
+        header("Location: ?command=welcome");
     }
 
 }
