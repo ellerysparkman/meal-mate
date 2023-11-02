@@ -48,6 +48,15 @@ class SiteController {
             case "showrecipe":
                 $this->showRecipe();
                 break;
+            case "edit":
+                $this->editRecipe();
+                break;
+            case "delete":
+                $this->deleteRecipe();
+                break;
+            case "delete":
+                $this->deleteRecipe();
+                break;    
             default:
                 $this->showWelcome();
                 break;
@@ -65,8 +74,8 @@ class SiteController {
             $loggedIn = true;
         }
 
-        if (isset($_POST["testmess"]) && !empty($_POST["testmess"])){
-            $message = $_POST["testmess"];
+        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $message = "hidden value worked, if is " . $_POST["recipe_id"];
         }
         include("templates/welcome.php");
     }
@@ -76,62 +85,85 @@ class SiteController {
     }
 
     public function showCookbook(){
+        $loggedIn = false;
         if(isset($_SESSION["name"])){
             $name = $_SESSION["name"];
             $user_id = $_SESSION["user_id"];
             $recipes = $this->getRecipes($user_id);
             $loggedIn = true;
         }
-        $res = $this->db->query("select * from recipes");
-        $recipes = print_r($res);
 
         include ("templates/cookbook.php");
     }
 
-    public function showAddRecipe(){
+    public function showAddRecipe($emessage = ""){
         $loggedIn = false;
 
         if(isset($_SESSION["name"])){
             $loggedIn = true;
         }
+        $message = $emessage;
         include ("templates/add-recipe.php");
     }
 
     public function showHomePage(){
-        $name = $_SESSION["name"];
-        $email = $_SESSION["email"];
-        $user_id = $_SESSION["user_id"];
-        $message = $this->getUsers();
-        $m1 = $this->getRecipes($user_id);
+        $loggedIn = false;
+        if (isset($_SESSION["name"])){
+            $name = $_SESSION["name"];
+            $email = $_SESSION["email"];
+            $user_id = $_SESSION["user_id"];
+            $message = $this->getUsers();
+            $m1 = $this->getRecipes($user_id);
+            $loggedIn = true;
+        }
         include ("templates/homepage.php");
     }
 
-    public function showRecipe($recipeId){
-        $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeId);
-        if (!empty($res)){
-            $recipe_id = $res[0]["recipe_id"];
-            $recipe_name = $res[0]["name"];
-            $notes = $res[0]["notes"];
-            $ingredients = $res[0]["ingredients"]; 
-            $tags = $res[0]["tags"]; 
-            $instructions= $res[0]["instructions"]; 
-            $user_id = $res[0]["user_id"]; 
+    public function showRecipe(){
+
+        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $recipeID = $_POST["recipe_id"];
+            $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
+            if (!empty($res)){
+                $currRecipe = $res;
+            }
+            else {
+                header("Location: ?command=cookbook");
+            }
         }
-        return;
+        else {
+            header("Location: ?command=cookbook");
+        }
+
+        include ("templates/show-recipe.php");
+    }
+    public function editRecipe(){
+        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $recipeID = $_POST["recipe_id"];
+            $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
+            if (!empty($res)){
+                $currRecipe = $res;
+            }
+            else {
+                header("Location: ?command=cookbook");
+            }
+        }
+        else {
+            header("Location: ?command=cookbook");
+        }
+
+        include ("templates/edit-recipe.php");
     }
 
-    public function editRecipe($recipeId, ...$param){
-        // TO DO 
-        $ingredients = '{}';
-        $instructions = '{}';
-        $res = $this->db->query("update recipes set ingredients = $1, instructions = $2 where recipe_id = $3;", $ingredients, $instructions, $recipeID);
-        $this->showRecipe();
-    }
+    public function deleteRecipe(){
+        if(isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $recipeId = $_POST["recipe_id"];
+            $res = $this->db->query("delete from recipes where recipe_id = $1;", $recipeId);
+            $this->showCookbook();}
+        else {
+            $this->showRecipe();
+        }
 
-    public function deleteRecipe($recipeId){
-        $res = $this->db->query("delete from recipes where recipe_id = $1;", $recipeId);
-        $this->showCookbook();
-        return;
     }
 
 
@@ -206,32 +238,43 @@ class SiteController {
     }
 
     public function addRecipe(){
-        // if isset recipe
-        // add recipe to user
-        if(isset($_POST["fullname"]) && !empty($_POST["fullname"])){
         if(isset($_POST["recipeNameInput"]) && !empty($_POST["recipeNameInput"])){
-            $res = $this->db->query("select * from recipes where name = $1;", $_POST["recipeNameInput"]);
-            if (empty($res)){
-                // add recipe to recipes table, currently the tags and ingredients don't work
-                $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);",
-                            $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], $_SESSION["user_id"]);
-                // get recipe id and add it to user's recipe_list
-                $recipeId = $this->db->query("select recipe_id from recipes where name = $1;", $_POST["recipeNameInput"]);
-                $this->db->query("update users set recipe_list = array_append(recipe_list, $1) where user_id = $2;", $recipeId, $_SESSION["user_id"]);
-
-                // Send user to the appropriate page (homepage)
-                header("Location: ?command=cookbook");
-                return;
+            $action = $_POST["action"];
+            if ($action === "add"){
+                $res = $this->db->query("select * from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
+                if (empty($res)){
+                    // ADD RECIPE to recipes table, currently the tags and ingredients don't work
+                    $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);",
+                                $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], $_SESSION["user_id"]);
+                    // get recipe id and add it to user's recipe_list
+                    $recipeId = $this->db->query("select recipe_id from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
+                    $this->db->query("update users set recipe_list = array_append(recipe_list, $1) where user_id = $2;", $recipeId, $_SESSION["user_id"]);
+    
+                    // Send user to the appropriate page (homepage)
+                    header("Location: ?command=cookbook");
+                    return;
+                }
+                // don't add repeat recipe
+                else {
+                    $this->showAddRecipe("A recipe under that name already exists in your cookbook!");
+                }
             }
-            else {
-                $this->errorMessage = "A recipe under that name already exists in your cookbook!";
+            elseif ($action === "edit") {
+                $success = $this->db->query("update recipes set name = $1, notes = $2, 
+                ingredients = $3, tags = $4, instructions = $5 where recipe_id = $6;",
+                    $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], 
+                    $_POST["recipe_id"]);
+                    if ($success){
+                        header("Location: ?command=cookbook");
+                    }
+                    else {
+                        header("Location: ?command=enter");
+                    }
+                    return;
+                }
             }
-        }
         else {
-            $this->errorMessage = "You need to name your recipe before creating it!";
-        }
-        $this->showCookbook();
-
+            $this->showAddRecipe("Make sure to name your recipe!");
     }}
 
 
@@ -254,9 +297,7 @@ class SiteController {
 
     public function getRecipes($user_id){
         $res = $this->db->query("select * from recipes where user_id = $1", $user_id);
-        $m = '';
-        $m = $m . print_r($res);
-        return $m;
+        return $res;
     }
 
 

@@ -5,8 +5,8 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1"> 
-            <meta name="author" content="Maya Hesselroth, Ellery Sparkman">
-            <meta name="description" content="Page displaying a user's recipes.">
+            <meta name="author" content="Maya Hesselroth">
+            <meta name="description" content="Page displaying a user's recipies.">
             <meta name="keywords" content="cookbook online meal prep planning recipes">   
             <title>Cookbook</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">      
@@ -43,8 +43,9 @@
                                 <a class="nav-link" aria-disabled="true">About us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-disabled="true">
-                                    <img src="images/profile-pic.png" alt="Profile bitch" width="20" height="20">
+                                <!-- This would normally lead to a profile page, but currently just leads to the log in/out page -->
+                                <a class="nav-link" href="?command=welcome">
+                                    <img src="images/profile-pic.png" alt="Profile picture" width="20" height="20">
                                 </a>
                             </li>
                         </ul>
@@ -71,32 +72,34 @@
                                 ones with the selected tags.  Right now, checking the boxes does nothing.-->
                                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
                                     <div class="accordion-body">
-                                        <ul>
-                                            <li>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="breakfastFlexCheck">
-                                                    <label class="form-check-label" for="breakfastFlexCheck">
-                                                        Breakfast
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="easyFlexCheck">
-                                                    <label class="form-check-label" for="easyFlexCheck">
-                                                        Easy
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="chickenFlexCheck">
-                                                    <label class="form-check-label" for="chickenFlexCheck">
-                                                        Chicken
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        <?php if($loggedIn) : ?>
+                                            <ul>
+                                                <li>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="breakfastFlexCheck">
+                                                        <label class="form-check-label" for="breakfastFlexCheck">
+                                                            Breakfast
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="easyFlexCheck">
+                                                        <label class="form-check-label" for="easyFlexCheck">
+                                                            Easy
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="" id="chickenFlexCheck">
+                                                        <label class="form-check-label" for="chickenFlexCheck">
+                                                            Chicken
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -105,79 +108,46 @@
                     </div>
                 </div>
                 <!--This is the column with the grid of recipies.  Three should be in a row on a large screen.-->
-
-                <?php 
-                // get recipes
-                print_r($recipes);
-                // show them in grid
-                // for recipe in recipe
-                ?> 
-
-
-
-
-                <div class="col">
-                    <div class="container cookbook">
-                        <div class="row btn-marg">
-                            <div class="col justify-self-start">
-                                <div class="card recipe">
-                                    <img src="images/dal.jpg" class="card-img-top cookbook-img" alt="A pot of dal.">
-                                    <div class="card-body">
-                                        <h4 class="myfont-alt">Vegetarian, Vegan, Healthy</h4>
-                                        <a class="nav-link card-title myfont" href = "?command=showrecipe&recipe_id=<?php echo $recipes[0]['recipe_id'];?> " >Best Homemade Dal</a>
+                <?php if($loggedIn) : ?>
+                    <div class="col">
+                        <div class="container cookbook">
+                            <?php foreach(array_chunk($recipes, 3, true) as $chunk): ?>
+                                <div class="row btn-marg">
+                                <?php foreach($chunk as $k => $v): ?>
+                                    <div class="col">
+                                        <div class="card recipe">
+                                            <img src="images/noimage.jpg" class="card-img-top cookbook-img" alt="Placeholder to show there's no image.">
+                                            <div class="card-body">
+                                                <?php 
+                                                    $tagStr = "";
+                                                    //Code for when user can actually add tags
+                                                    //foreach($v["tags"] as $tag){
+                                                        //$tagStr .= $tag . " ";
+                                                    //}
+                                                ?>
+                                                <h4 class="myfont-alt"><?=$tagStr?></h4>
+                                                <form action="?command=showrecipe" method="post">
+                                                    <input type="hidden" name="recipe_id" value=<?=$v["recipe_id"]?>>
+                                                    <button type="submit" class="card-title myfont"><?=$v["name"]?></button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
+                                <?php endforeach; ?>
                                 </div>
-                            </div>
-                            <div class="col justify-self-center">
-                                <div class="card recipe">
-                                    <img src="images/hamburger.jpg" class="card-img-top cookbook-img" alt="A hamburger.">
-                                    <div class="card-body">
-                                        <h4 class="myfont-alt">Red meat, Easy</h4>
-                                        <h3 class="card-title myfont">Restaurant-Style Smash Burger</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col justify-self-end">
-                                <div class="card recipe">
-                                    <img src="images/naengmyeon.jpg" class="card-img-top cookbook-img" alt="A bowl of mul naengmyeon.">
-                                    <div class="card-body">
-                                        <h4 class="myfont-alt">Noodles, Korean, Healthy</h4>
-                                        <h3 class="card-title myfont">Mul Naengmyeon From Scratch</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row btn-marg">
-                            <div class="col justify-self-start">
-                                <div class="card recipe">
-                                    <img src="images/pancakes.jpg" class="card-img-top cookbook-img" alt="A plate of pancakes.">
-                                    <div class="card-body">
-                                        <h4 class="myfont-alt">Breakfast, Sweet, Easy</h4>
-                                        <h3 class="card-title myfont">Fluffiest Whole Wheat Pancakes</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col justify-self-center cookbook-img">
-                                <div class="card recipe">
-                                    <img src="images/sasuage.jpg" class="card-img-top cookbook-img" alt="A pot of dal">
-                                    <div class="card-body">
-                                        <h4 class="myfont-alt">Chicken, Weeknight Dinners, One-Pan</h4>
-                                        <h3 class="card-title myfont">Healthy Chicken Sausage Stir-Fry</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col justify-self-end">
-                                <div class="card recipe">
-                                    <img src="images/kale-salad.png" class="card-img-top cookbook-img" alt="A nutricious kale salad.">
-                                    <div class="card-body">
-                                        <h4 class="myfont-alt">Kale Salad, Quick</h4>
-                                        <h3 class="card-title myfont">Kale Avocado Salad</h3>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                </div>
+                <?php else : ?>
+                    <div class="col">
+                        <div class="container cookbook">
+                            <h2>Log in to view the recipes in your cookbook!<h2>
+                            <form action="?command=welcome" method="post">
+                                <button type="submit" class="btn btn-primary">Log in</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         </body>

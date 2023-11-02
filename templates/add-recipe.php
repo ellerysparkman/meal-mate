@@ -5,7 +5,7 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1"> 
-            <meta name="author" content="Mainly made by Maya Hesselroth, with edits from Ellery">
+            <meta name="author" content="Mainly made by Ellery, with edits from Maya">
             <meta name="description" content="Page with input fields for a user to add a new recipe to their cookbook.">
             <meta name="keywords" content="cookbook online meal prep planning recipes ingredients">   
             <title>Add recipe</title>
@@ -37,7 +37,8 @@
                                 <a class="nav-link" aria-disabled="true">About us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-disabled="true">
+                                <!-- This would normally lead to a profile page, but currently just leads to the log in/out page -->
+                                <a class="nav-link" href="?command=welcome">
                                     <img src="images/profile-pic.png" alt="Profile picture" width="20" height="20">
                                 </a>
                             </li>
@@ -47,68 +48,75 @@
             </nav>
             <h1 class="myfont btn-marg">Add to Cookbook</h1>
             <?php if($loggedIn) : ?>
+                <!--This is the container for all of the input fields.-->
 
-            <!--This is the container for all of the input fields.-->
-
-            <form class="container" action = "?command=addrecipe" method="post">
-                <div class="row g-3">
-                    <div class="col-lg-3">
-                        <div class="mb-3">
-                            <label for="recipeNameInput" class="form-label myfont">Recipe name</label>
-                            <input type="text" class="form-control myfont" name="recipeNameInput" id="recipeNameInput" placeholder="Name" required>
+                <form class="container" action = "?command=addrecipe" method="post">
+                    <input type="hidden" name="action" value="add">
+                    <?php if(!empty($message)): ?>
+                        <p class='alert alert-danger'><?=$message?></p>
+                    <?php endif; ?>
+                    <div class="row g-3">
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label for="recipeNameInput" class="form-label myfont">Recipe name</label>
+                                <input type="text" class="form-control myfont" id="recipeNameInput" name="recipeNameInput" placeholder="Name" required>
+                            </div>
+                        </div>
+                        <!--The tags/ingredients lists should grow as the user hits enter.  The ingredients list should check that it starts with a number.-->
+                        <div class="col-lg-3">
+                            <div class="mb-3">
+                                <label for="ingredientsInput" class="form-label myfont">Ingredients</label>
+                                <ul>
+                                    <li class="myfont"></li>
+                                    <li class="myfont"></li>
+                                </ul>
+                                <input type="text" class="form-control myfont" id="ingredientsInput" name="ingredientsInput" placeholder="New ingredient">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="mb-3">
+                                <label for="tagsInput" class="form-label myfont">Tags</label>
+                                <ul>
+                                    <li class="myfont"></li>
+                                    <li class="myfont"></li>
+                                </ul>
+                                <input type="text" class="form-control myfont" id="tagsInput" name="tagsInput" placeholder="New tag">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <p class="myfont">Add an image for the recipe card!</p>
+                            <div class="input-group mb-3">
+                                <input type="file" class="form-control myfont" id="recipeImageFile">
+                                <label for="recipeImageFile"class="input-group-text myfont" >Upload</label>
+                            </div>
                         </div>
                     </div>
-                    <!--The tags/ingredients lists should grow as the user hits enter.  The ingredients list should check that it starts with a number.-->
-                    <div class="col-lg-3">
-                        <div class="mb-3">
-                            <label for="ingredientsInput" class="form-label myfont">Ingredients</label>
-                            <ul>
-                                <li class="myfont"></li>
-                                <li class="myfont"></li>
-                            </ul>
-                            <input type="text" class="form-control myfont" name="ingredientsInput"id="ingredientsInput" placeholder="New ingredient">
+                    <div class="row g-3">
+                        <div class="col-md-5 order-1 order-md-1">
+                            <div class="form-floating">
+                                <textarea class="form-control myfont" placeholder="Write the recipe here" id="recipeTextarea" name="recipeTextarea" style="height: 350px"></textarea>
+                                <label class="myfont" for="recipeTextarea">Recipe</label>
+                            </div>
+                        </div>
+                        <div class="col-md-5 order-2 order-md-2">
+                            <div class="form-floating">
+                                <textarea class="form-control myfont" placeholder="Write notes about the recipe here" id="notesTextarea" name="notesTextarea" style="height: 350px"></textarea>
+                                <label class="myfont" for="notesTextarea">Notes</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 order-3 order-md-3">
+                            <button type="submit" class="btn addmeal-btn myfont">Add to Cookbook!</button>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <div class="mb-3">
-                            <label for="tagsInput" class="form-label myfont">Tags</label>
-                            <ul>
-                                <li class="myfont"></li>
-                                <li class="myfont"></li>
-                            </ul>
-                            <input type="text" class="form-control myfont" name="tagsInput"id="tagsInput" placeholder="New tag">
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <p class="myfont">Add an image for the recipe card!</p>
-                        <div class="input-group mb-3">
-                            <input type="file" class="form-control myfont" name="recipeImageFile" id="recipeImageFile">
-                            <label for="recipeImageFile"class="input-group-text myfont" >Upload</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-3">
-    <div class="col-md-5 order-1 order-md-1">
-        <div class="form-floating">
-            <textarea class="form-control myfont" placeholder="Write the recipe here" name="recipeTextarea" id="recipeTextarea" style="height: 350px"></textarea>
-            <label class="myfont" for="recipeTextarea">Recipe</label>
-        </div>
-    </div>
-    <div class="col-md-5 order-2 order-md-2">
-        <div class="form-floating">
-            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" name="notesTextarea" id="notesTextarea" style="height: 350px"></textarea>
-            <label class="myfont" for="notesTextarea">Notes</label>
-        </div>
-    </div>
-        <div class="col-md-2 order-3 order-md-3">
-            <button type="submit" class="btn addmeal-btn myfont">Add to Cookbook!</button>
-
-        </div>
-    </div>
-    
                 </form>
-             <?php endif; ?>
-
+            <?php else : ?>
+                <div class="container" style="margin-top: 15px;">
+                    <h2 class="myfont btn-marg">Please log in to add to your cookbook!</h2>
+                    <form action="?command=welcome" method="post">
+                            <button type="submit" class="btn btn-primary">Log in</button>
+                    </form>
+                </div>
+            <?php endif; ?>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         </body>
     </html>
