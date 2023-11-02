@@ -5,7 +5,7 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1"> 
-            <meta name="author" content="Mainly made by Maya Hesselroth, with edits from Ellery">
+            <meta name="author" content="Mainly made by Ellery, with edits from Maya">
             <meta name="description" content="Page with input fields for a user to add a new recipe to their cookbook.">
             <meta name="keywords" content="cookbook online meal prep planning recipes ingredients">   
             <title>Add recipe</title>
@@ -51,6 +51,9 @@
                 <!--This is the container for all of the input fields.-->
 
                 <form class="container" action = "?command=insertrecipe" method="post">
+                    <?php if(!empty($message)): ?>
+                        <p class='alert alert-danger'><?=$message?></p>
+                    <?php endif; ?>
                     <div class="row g-3">
                         <div class="col-lg-3">
                             <div class="mb-3">

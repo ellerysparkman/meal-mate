@@ -4,6 +4,7 @@
     ini_set('display_errors', 1);
 
 // https://www.w3schools.com/php/php_form_url_email.asp
+//Both Ellery and Maya worked a lot on this
 
 class SiteController {
 
@@ -69,8 +70,8 @@ class SiteController {
             $loggedIn = true;
         }
 
-        if (isset($_POST["testmess"]) && !empty($_POST["testmess"])){
-            $message = $_POST["testmess"];
+        if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $message = "The hidden value worked, the id was: " . $_POST["recipe_id"];
         }
 
         include("templates/welcome.php");
@@ -89,8 +90,6 @@ class SiteController {
             $recipes = $this->getRecipes($userid);
             $loggedIn = true;
         }
-        $res = $this->db->query("select * from recipes");
-        $recipes = print_r($res);
 
         include ("templates/cookbook.php");
     }
@@ -107,13 +106,15 @@ class SiteController {
         include ("templates/homepage.php");
     }
 
-    public function showRecipeCreation(){
+    public function showRecipeCreation($emessage=""){
 
         $loggedIn = false;
 
         if(isset($_SESSION["name"])){
             $loggedIn = true;
         }
+
+        $message = $emessage;
 
         include ("templates/add-recipe.php");
     }
@@ -173,7 +174,7 @@ class SiteController {
         if(isset($_POST["fullname"]) && !empty($_POST["fullname"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["passwd"]) && !empty($_POST["passwd"])) {
                  // Check if user is in database
                  $res = $this->db->query("select * from users where email = $1;", $_POST["email"]);
-                 if (empty($res)) {
+                if (empty($res)) {
                      // User was not there, so insert them
                      // email validation
                      $email = $_POST["email"];
@@ -210,13 +211,13 @@ class SiteController {
         // if isset recipe
         // add recipe to user
         if(isset($_POST["recipeNameInput"]) && !empty($_POST["recipeNameInput"])){
-            $res = $this->db->query("select * from recipes where name = $1;", $_POST["recipeNameInput"]);
+            $res = $this->db->query("select * from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
             if (empty($res)){
                 // add recipe to recipes table, currently the tags and ingredients don't work
                 $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);",
                             $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], $_SESSION["user_id"]);
                 // get recipe id and add it to user's recipe_list
-                $recipeId = $this->db->query("select recipe_id from recipes where name = $1;", $_POST["recipeNameInput"]);
+                $recipeId = $this->db->query("select recipe_id from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
                 $this->db->query("update users set recipe_list = array_append(recipe_list, $1) where user_id = $2;", $recipeId, $_SESSION["user_id"]);
 
                 // Send user to the appropriate page (homepage)
@@ -224,13 +225,13 @@ class SiteController {
                 return;
             }
             else {
-                $this->errorMessage = "A recipe under that name already exists in your cookbook!";
+                $this->showRecipeCreation("A recipe under that name already exists in your cookbook!");
             }
         }
         else {
-            $this->errorMessage = "You need to name your recipe before creating it!";
+            $this->showRecipeCreation("You need to name your recipe before creating it!");
         }
-        $this->showCookbook();
+        //$this->showCookbook();
 
     }
 
