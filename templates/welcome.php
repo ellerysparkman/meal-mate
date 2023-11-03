@@ -48,6 +48,9 @@
                 <div class="row col-xs-12">
                     <h1>Welcome to mealmate!</h1>
                     <h5>You are currently logged in as <?=$name?>!</h5>
+                    <br>
+                    <h5>User information</h5>
+                    <p><?=$info?></p>
 
                     <form action="?command=logout" method="post">
                         <button type="submit" class="btn btn-primary">Log out</button>

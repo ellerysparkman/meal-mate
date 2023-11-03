@@ -5,7 +5,7 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1"> 
-            <meta name="author" content="Mainly made by Maya">
+            <meta name="author" content="Maya Hesselroth with edits from Ellery Sparkman">
             <meta name="description" content="Page with input fields for a user to change information about a recipe in their cookbook.">
             <meta name="keywords" content="cookbook online meal prep planning recipes ingredients">   
             <title>Edit recipe</title>
@@ -48,6 +48,8 @@
             </nav>
             <h1 class="myfont btn-marg">Edit Recipe</h1>
             <form class="container" action = "?command=insertrecipe" method="post">
+                <input type="hidden" name="updateInfo" value="true">
+                <input type="hidden" name="recipe_id" value=<?=$recipeID?>>
                 <?php if(!empty($message)): ?>
                     <p class='alert alert-danger'><?=$message?></p>
                 <?php endif; ?>
@@ -55,7 +57,7 @@
                     <div class="col-lg-3">
                         <div class="mb-3">
                             <label for="recipeNameInput" class="form-label myfont">Recipe name</label>
-                            <input type="text" class="form-control myfont" id="recipeNameInput" name="recipeNameInput" value=<?=$currRecipe[0]["name"]?> required>
+                            <input type="text" class="form-control myfont" id="recipeNameInput" name="recipeNameInput" value="<?=$currRecipe[0]["name"]?>" required>
                         </div>
                     </div>
                     <!--The tags/ingredients lists should grow as the user hits enter.  The ingredients list should check that it starts with a number.-->
@@ -89,13 +91,13 @@
                 <div class="row g-3">
                     <div class="col-md-5 order-1 order-md-1">
                         <div class="form-floating">
-                            <textarea class="form-control myfont" placeholder="Write the recipe here" id="recipeTextarea" name="recipeTextarea" style="height: 350px" value=<?=$currRecipe[0]["instructions"]?>></textarea>
+                            <textarea class="form-control myfont" placeholder="Write the recipe here" id="recipeTextarea" name="recipeTextarea" style="height: 350px"><?=$currRecipe[0]["instructions"]?></textarea>
                             <label class="myfont" for="recipeTextarea">Recipe</label>
                         </div>
                     </div>
                     <div class="col-md-5 order-2 order-md-2">
                         <div class="form-floating">
-                            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" id="notesTextarea" name="notesTextarea" style="height: 350px" value=<?=$currRecipe[0]["notes"]?>></textarea>
+                            <textarea class="form-control myfont" placeholder="Write notes about the recipe here" id="notesTextarea" name="notesTextarea" style="height: 350px"><?= $currRecipe[0]["notes"]?></textarea>
                             <label class="myfont" for="notesTextarea">Notes</label>
                         </div>
                     </div>

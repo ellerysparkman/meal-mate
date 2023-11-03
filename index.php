@@ -1,7 +1,5 @@
 <?php
-
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
+//LINK TO HOMEPAGE https://cs4640.cs.virginia.edu/msh3dvn/sprint3/?command=enter
 
     spl_autoload_register(function ($classname) {
         include "$classname.php";

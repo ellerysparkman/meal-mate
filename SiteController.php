@@ -1,8 +1,5 @@
 <?php
 
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
 // https://www.w3schools.com/php/php_form_url_email.asp
 //Both Ellery and Maya worked a lot on this
 
@@ -64,6 +61,7 @@ class SiteController {
         }
     }
 
+    //The log in/log out page
     public function showWelcome(){       
         $message = "";
         if (!empty($this->errorMessage))
@@ -74,15 +72,19 @@ class SiteController {
         if(isset($_SESSION["name"])){
             $name = $_SESSION["name"];
             $loggedIn = true;
+            $res = $this->db->query("select name, email from users where name = $1;", $name);
+            $info = json_encode($res, JSON_PRETTY_PRINT);
         }
 
         include("templates/welcome.php");
     }
 
+    //The calendar page, doesn't really do anything right now
     public function showCalendar(){
-        include ("templates/calendar.html");
+        include ("templates/calendar.php");
     }
 
+    //The cookbook screen which displays a grid of cards of a user's recipes
     public function showCookbook(){
         $loggedIn = false;
 
@@ -90,12 +92,13 @@ class SiteController {
             $name = $_SESSION["name"];
             $userid = $_SESSION["user_id"];
             $recipes = $this->getRecipes($userid);
-            $loggedIn = true;
+            $loggedIn = true; 
         }
 
         include ("templates/cookbook.php");
     }
 
+    //The homepage of the website
     public function showHomePage(){
 
         $loggedIn = false;
@@ -108,6 +111,7 @@ class SiteController {
         include ("templates/homepage.php");
     }
 
+    //The page where you create a new recipe and add it to the database
     public function showRecipeCreation($emessage=""){
 
         $loggedIn = false;
@@ -121,6 +125,7 @@ class SiteController {
         include ("templates/add-recipe.php");
     }
 
+    //Shows a detailed view of a recipe with an edit and delete button
     public function showRecipe(){
 
         if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
@@ -140,8 +145,7 @@ class SiteController {
         include ("templates/show-recipe.php");
     }
 
-    //This will show the edit screen.  For the edit logic, just have a hidden field checking if its 
-    //insert or edit and then check that and use the insert recipe function again
+    //This is the screen that lets a user edit a recipe they already created. Needs recipe_id value from hidden input field
     public function editRecipe(){
         if (isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
             $recipeID = $_POST["recipe_id"];
@@ -160,12 +164,20 @@ class SiteController {
         include ("templates/edit-recipe.php");
     }
 
-    //public function deleteRecipe($recipeId){
-        //$res = $this->db->query("delete from recipes where recipe_id = $1;", $recipeId);
-        //$this->showCookbook();
-        //return;
-    //}
+    //This function removes a recipe from the database.  Needs recipe_id value from hidden input field
+    public function deleteRecipe(){
+        if(isset($_POST["recipe_id"]) && !empty($_POST["recipe_id"])){
+            $recipeId = $_POST["recipe_id"];
+            $res = $this->db->query("delete from recipes where recipe_id = $1;", $recipeId);
+            $this->showCookbook();
+        }
+        else {
+            $this->showRecipe();
+        }
 
+    }
+
+    //checks to see if there is a user in the database with the given email and if the password matches.  Logs in and directs to homepage if so
     public function login(){
         // user enters email
         if (isset($_POST["email"]) && !empty($_POST["email"]) &&
@@ -198,6 +210,7 @@ class SiteController {
         $this->showWelcome();
     }
 
+    //Creates a new acount and directs to homepage if there isn't already an acount for the email.
     public function register(){
         if(isset($_POST["fullname"]) && !empty($_POST["fullname"]) && isset($_POST["email"]) && !empty($_POST["email"]) && isset($_POST["passwd"]) && !empty($_POST["passwd"])) {
                  // Check if user is in database
@@ -235,39 +248,49 @@ class SiteController {
          $this->showWelcome();
     }
 
+    //Adds a recipe to the database or updates one based on the value of updateInfo (true means update, false means add)
     public function addRecipe(){
-        // if isset recipe
-        // add recipe to user
+        // if updateInfo is true, a recipe is being updated, if its false a recipe is being addded
         if(isset($_POST["recipeNameInput"]) && !empty($_POST["recipeNameInput"])){
-            $res = $this->db->query("select * from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
-            if (empty($res)){
-                // add recipe to recipes table, currently the tags and ingredients don't work
-                $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);",
-                            $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], $_SESSION["user_id"]);
-                // get recipe id and add it to user's recipe_list
-                $recipeId = $this->db->query("select recipe_id from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
-                $this->db->query("update users set recipe_list = array_append(recipe_list, $1) where user_id = $2;", $recipeId, $_SESSION["user_id"]);
-
-                // Send user to the appropriate page (homepage)
-                header("Location: ?command=cookbook");
-                return;
+            $updateInfo = $_POST["updateInfo"];
+            if ($updateInfo === "false"){
+                $res = $this->db->query("select * from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
+                if (empty($res)){
+                    // ADD RECIPE to recipes table, currently the tags and ingredients don't work
+                    $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);",
+                                $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], $_SESSION["user_id"]);
+                    // get recipe id and add it to user's recipe_list
+                    $recipeId = $this->db->query("select recipe_id from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
+                    $this->db->query("update users set recipe_list = array_append(recipe_list, $1) where user_id = $2;", $recipeId, $_SESSION["user_id"]);
+    
+                    // Send user to the appropriate page
+                    header("Location: ?command=cookbook");
+                    return;
+                }
+                // don't add repeat recipe
+                else {
+                    $this->showRecipeCreation("A recipe under that name already exists in your cookbook!");
+                }
             }
-            else {
-                $this->showRecipeCreation("A recipe under that name already exists in your cookbook!");
+            if ($updateInfo === "true") {
+                $success = $this->db->query("update recipes set name = $1, notes = $2, 
+                ingredients = $3, tags = $4, instructions = $5 where recipe_id = $6;",
+                    $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], 
+                    $_POST["recipe_id"]);
+                header("Location: ?command=cookbook");
             }
         }
         else {
-            $this->showRecipeCreation("You need to name your recipe before creating it!");
+            $this->showRecipeCreation("Make sure to name your recipe!");
         }
-        //$this->showCookbook();
-
     }
 
+    //Returns all of the users in the database. Was only used for testing
     public function getUsers(){
         $message = "";
         $res = $this->db->query("select * from users");
         if (empty($res)){
-            $message = "shit's empty";
+            $message = "No users";
             return $message;
         }
         else {
@@ -276,12 +299,14 @@ class SiteController {
         }
     }
 
+    //Returns all the recipes for the given user
     public function getRecipes($user_id){
         $res = $this->db->query("select * from recipes where user_id = $1", $user_id);
         return $res;
     }
 
 
+    //Logs the user out and directs them to the log in page
     public function logout(){
         session_destroy();
         session_start();

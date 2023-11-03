@@ -1,14 +1,10 @@
 <?php
 
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-
-    // Note that these are for the local Docker container
     $host = "localhost";
     $port = "5432";
     $database = "msh3dvn";
     $user = "msh3dvn";
-    $password = ""; 
+    $password = "iwes5ccRPh8H"; 
 
     $dbHandle = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
 
@@ -54,19 +50,19 @@
     //$questions = json_decode(
         //file_get_contents("http://ford.cs.virginia.edu/trivia.json"), true);
 
-    $res = pg_prepare($dbHandle, "myinsert", "insert into users (name, email, password, recipe_list) values ($1, $2, $3, $4);");
-    $testa = array(1, 2, 3, 4);
-    $res = pg_execute($dbHandle, "myinsert", ["fname", "test@gmail.com", "passwd", '{1, 2, 3}']);
-    $result = pg_query($dbHandle, "select * from users");
-    $arraya = pg_fetch_assoc($result);
-    echo "<br>";
-    var_dump($arraya);
-    echo "<br>";
-    echo "Recipe:";
-    echo "<br>";
+    //$res = pg_prepare($dbHandle, "myinsert", "insert into users (name, email, password, recipe_list) values ($1, $2, $3, $4);");
+    //$testa = array(1, 2, 3, 4);
+    //$res = pg_execute($dbHandle, "myinsert", ["fname", "test@gmail.com", "passwd", '{1, 2, 3}']);
+    //$result = pg_query($dbHandle, "select * from users");
+    //$arraya = pg_fetch_assoc($result);
+    //echo "<br>";
+    //var_dump($arraya);
+    //echo "<br>";
+    //echo "Recipe:";
+    //echo "<br>";
 
-    $res = pg_prepare($dbHandle, "myinsert2", "insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);");
-    $res = pg_execute($dbHandle, "myinsert2", ["Pancakes", "Make for breakfast", '{eggs, milk, sugar}', '{sweet, fast, easy, breakfast}', "first mix flour and sugar in a medium bowl", 1]);
-    $result = pg_query($dbHandle, "select * from recipes");
-    $arraya = pg_fetch_assoc($result);
-    var_dump($arraya);
+    //$res = pg_prepare($dbHandle, "myinsert2", "insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);");
+    //$res = pg_execute($dbHandle, "myinsert2", ["Pancakes", "Make for breakfast", '{eggs, milk, sugar}', '{sweet, fast, easy, breakfast}', "first mix flour and sugar in a medium bowl", 1]);
+    //$result = pg_query($dbHandle, "select * from recipes");
+    //$arraya = pg_fetch_assoc($result);
+    //var_dump($arraya);

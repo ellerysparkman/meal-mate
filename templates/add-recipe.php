@@ -54,6 +54,7 @@
                     <?php if(!empty($message)): ?>
                         <p class='alert alert-danger'><?=$message?></p>
                     <?php endif; ?>
+                    <input type="hidden" name="updateInfo" value="false">
                     <div class="row g-3">
                         <div class="col-lg-3">
                             <div class="mb-3">

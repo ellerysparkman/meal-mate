@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
-        <meta name="author" content="Maya Hesselroth">
+        <meta name="author" content="Maya Hesselroth with edits from Ellery Sparkman">
         <meta name="description" content="Detailed view for a recipe">
         <meta name="keywords" content = "meal prep, online cookbook, recipes, meal planning">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">      

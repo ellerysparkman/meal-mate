@@ -2,7 +2,7 @@
 <!--Sources used: https://getbootstrap.com/-->
 <!-- Very simple skeleton of a homepage-->
 
-<!-- LINK TO HOMEPAGE https://cs4640.cs.virginia.edu/ets4pkp/sprint2/index.html -->
+<!-- LINK TO HOMEPAGE https://cs4640.cs.virginia.edu/msh3dvn/sprint3/?command=enter -->
 <html lang="en">
     <head>
         <meta charset="utf-8">
