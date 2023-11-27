@@ -5,12 +5,90 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1"> 
-            <meta name="author" content="Mainly made by Ellery, with edits from Maya">
+            <meta name="author" content="Mainly made by Maya">
             <meta name="description" content="Page with input fields for a user to add a new recipe to their cookbook.">
             <meta name="keywords" content="cookbook online meal prep planning recipes ingredients">   
             <title>Add recipe</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">      
             <link rel="stylesheet" href="styles/main.css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                var tagLs = [];
+                var ingredLs = [];
+
+                //ingreds is true if its an ingredient, false if its a tag
+                //Removes tag/ingredient whose x button was clicked from respective list
+                function handleRemove(ingreds){
+                    if(ingreds){
+                        console.log("Before remove: ");
+                        console.log(ingredLs);
+                        //$("#ingredientsList li").eq(i).remove();
+                        $(this).remove();
+                        ingredLs = [];
+                        $("#ingredientsList li").each(function(){
+                            console.log($(this).html);
+                            ingredLs.push($(this).text);
+                        });
+                        //let rem = ingredLs.indexOf(remItem);
+                        //ingredLs = ingredLs.filter((item) => item !== remItem);
+                        console.log("After remove: ")
+                        console.log(ingredLs);
+                    }
+                    else{
+                        console.log("Before remove: ");
+                        console.log(tagLs);
+                        //$("#tagsList li").eq(i).remove();
+                        $(this).remove();
+                        //let rem = tagLs.indexOf(item);
+                        //tagLs = tagLs.filter((item, index) => index !== rem);
+                        //console.log("After remove: ");
+                        //console.log(tagLs);
+                    }
+                }
+
+                $(document).ready(function() {
+                    $("#ingredAlert").hide();
+
+                    //Checks if an ingredient is formatted correctly and adds it to the list if so when enter is pressed
+                    $("#addIng").on( "click", function() {
+                        console.log("the add ingredient button worked!");
+                        
+                        let inarr = $("#ingredientsInput").val().split(" ");
+                        let valid = inarr[0].match(/^[0-9]*\.?[0-9]+$/);
+
+                        if(valid && inarr.length > 1){
+                            $("#ingredAlert").hide();
+                            let curr = $("#ingredientsInput").val();
+                            $("#ingredientsInput").val("");
+                            let newing = "<li class='myfont'>" + curr + "<button type='button' class='btn-close ingBtn' aria-label='Close'></button></li>";
+                            $("#ingredientsList").append(newing);
+                            ingredLs.push(curr);
+                        }
+                        else{
+                            $("#ingredAlert").show();
+                        }
+                    });
+
+                    //Adds a new tag to the list when enter is pressed
+                    $("#addTag").on( "click", function() {
+                        console.log("the add tag button worked!");
+                        let curr = $("#tagsInput").val();
+                        $("#tagsInput").val("");
+                        let newtag = "<li class='myfont'>" + curr + "<button type='button' class='btn-close' aria-label='Close' id='tagBtn'></button></li>"
+                        $("#tagsList").append(newtag);
+                        tagLs.push(curr);
+                    });
+
+                    $(".ingBtn").on("click", function(){
+                        console.log("hello???")
+                        console.log($(this));
+                        console.log($(this).index);
+                        $(this).remove();
+                    });
+
+                });
+
+            </script>
         </head>  
         <body>
             <!--The links in the navbar that lead to pages that don't exist are set as disabled-->
@@ -66,21 +144,20 @@
                         <div class="col-lg-3">
                             <div class="mb-3">
                                 <label for="ingredientsInput" class="form-label myfont">Ingredients</label>
-                                <ul>
-                                    <li class="myfont"></li>
-                                    <li class="myfont"></li>
+                                <ul id="ingredientsList">
                                 </ul>
                                 <input type="text" class="form-control myfont" id="ingredientsInput" name="ingredientsInput" placeholder="New ingredient">
+                                <button type="button" class="btn addmeal-btn" id="addIng">Add</button>
+                                <p class='alert alert-danger' id="ingredAlert">Please enter an amount using only numbers and decimals, a space, then the ingredient name.</p>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="mb-3">
                                 <label for="tagsInput" class="form-label myfont">Tags</label>
-                                <ul>
-                                    <li class="myfont"></li>
-                                    <li class="myfont"></li>
+                                <ul id="tagsList">
                                 </ul>
                                 <input type="text" class="form-control myfont" id="tagsInput" name="tagsInput" placeholder="New tag">
+                                <button type="button" class="btn addmeal-btn" id="addTag">Add</button>
                             </div>
                         </div>
                         <div class="col-lg-4">
