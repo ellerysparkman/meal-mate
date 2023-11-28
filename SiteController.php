@@ -48,6 +48,9 @@ class SiteController {
             case "calendar":
                 $this->showCalendar();
                 break;
+            case "savecalendar":
+                $this->saveCalendar();
+                break;
             case "viewrecipe":
                 $this->showRecipe();
                 break;
@@ -81,9 +84,50 @@ class SiteController {
         include("templates/welcome.php");
     }
 
-    //The calendar page, doesn't really do anything right now
+    //The calendar page, checks if the user has a meal plan saved in database
     public function showCalendar(){
+
+        $loadDays = false;
+
+        //Check that user is logged in
+        if(isset($_SESSION["user_id"]) && !empty($_SESSION["user_id"])){
+            $res = $this->db->query("select * from calendars where user_id = $1;", $_SESSION["user_id"]);
+            if (!empty($res)){
+                $loadDays = true;
+                $oldMon = $res[0]["monday"];
+                $oldTue = $res[0]["tuesday"];
+                $oldWed = $res[0]["wednesday"];
+                $oldThu = $res[0]["thursday"];
+                $oldFri = $res[0]["friday"];
+                $oldSat = $res[0]["saturday"];
+                $oldSun = $res[0]["sunday"];
+            }
+        }
+
         include ("templates/calendar.php");
+    }
+
+    //Saves calendar meals to database
+    public function saveCalendar(){
+        //Check that user is logged in and that one post value is set, since they're all set at the same time
+        if(isset($_SESSION["user_id"]) && !empty($_SESSION["user_id"]) && isset($_POST["monday"]) && !empty($_POST["monday"])){
+            $res = $this->db->query("select * from calendars where user_id = $1;", $_SESSION["user_id"]);
+            //User doesn't have a calendar saved yet
+            if (empty($res)){
+                $this->db->query("insert into calendars (monday, tuesday, wednesday, thursday, friday, saturday, sunday, user_id) values ($1, $2, $3, $4, $5, $6, $7, $8);",
+                                $_POST["monday"], $_POST["tuesday"], $_POST["wednesday"], $_POST["thursday"], $_POST["friday"], $_POST["saturday"], 
+                                $_POST["sunday"], $_SESSION["user_id"]);
+            }
+            else{
+                $success = $this->db->query("update calendars set monday = $1, tuesday = $2, wednesday = $3, thursday = $4, friday = $5,
+                saturday = $6, sunday= $7 where user_id = $8;", $_POST["monday"], $_POST["tuesday"], $_POST["wednesday"], $_POST["thursday"], 
+                $_POST["friday"], $_POST["saturday"], $_POST["sunday"], $_SESSION["user_id"]);
+            }
+
+            header("Location: ?command=calendar");
+            return;
+        }
+        
     }
 
     //The cookbook screen which displays a grid of cards of a user's recipes

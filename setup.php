@@ -17,12 +17,15 @@
     // Drop tables and sequences
     $res  = pg_query($dbHandle, "drop sequence if exists recipe_seq cascade;");
     $res  = pg_query($dbHandle, "drop sequence if exists user_seq cascade;");
+    $res  = pg_query($dbHandle, "drop sequence if exists calendar_seq cascade;");
     $res  = pg_query($dbHandle, "drop table if exists recipes;");
     $res  = pg_query($dbHandle, "drop table if exists users;");
+    $res  = pg_query($dbHandle, "drop table if exists calendars;");
 
     // Create sequences
     $res  = pg_query($dbHandle, "create sequence recipe_seq;");
     $res  = pg_query($dbHandle, "create sequence user_seq;");
+    $res  = pg_query($dbHandle, "create sequence calendar_seq;");
 
     // Create tables.  
     //recipe_list is an array of recipe ids created by the user
@@ -42,6 +45,18 @@
             tags           text[],
             instructions   text,
             user_id        int references users(user_id)
+    );");
+
+    $res  = pg_query($dbHandle, "create table calendars (
+        calendar_id        int primary key default nextval('calendar_seq'),
+        monday             json,
+        tuesday            json,
+        wednesday          json,
+        thursday           json,
+        friday             json,
+        saturday           json,
+        sunday             json,
+        user_id            int references users(user_id)
     );");
     
 
