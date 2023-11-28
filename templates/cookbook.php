@@ -14,8 +14,23 @@
             <style>
                 body {
                     font-family: Arial, sans-serif;
+                }
+                .recipeHover {
+                    transform: scale(1.05);
                 }      
             </style>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script>
+                $(document).ready(function() {
+
+                    $(".recipe").on("mouseover", function(){
+                        $(this).addClass("recipeHover");
+                    });
+                    $(".recipe").on("mouseout", function(){
+                        $(this).removeClass("recipeHover");
+                    });
+                });
+            </script>
         </head>  
 
         <body>
@@ -114,7 +129,7 @@
                             <?php foreach(array_chunk($recipes, 3, true) as $chunk): ?>
                                 <div class="row btn-marg">
                                 <?php foreach($chunk as $k => $v): ?>
-                                    <div class="col">
+                                    <div class="col recipeParent">
                                         <div class="card recipe">
                                             <img src="images/noimage.jpg" class="card-img-top cookbook-img" alt="Placeholder to show there's no image.">
                                             <div class="card-body">

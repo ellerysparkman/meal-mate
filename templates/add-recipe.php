@@ -16,42 +16,11 @@
                 var tagLs = [];
                 var ingredLs = [];
 
-                //ingreds is true if its an ingredient, false if its a tag
-                //Removes tag/ingredient whose x button was clicked from respective list
-                function handleRemove(ingreds){
-                    if(ingreds){
-                        console.log("Before remove: ");
-                        console.log(ingredLs);
-                        //$("#ingredientsList li").eq(i).remove();
-                        $(this).remove();
-                        ingredLs = [];
-                        $("#ingredientsList li").each(function(){
-                            console.log($(this).html);
-                            ingredLs.push($(this).text);
-                        });
-                        //let rem = ingredLs.indexOf(remItem);
-                        //ingredLs = ingredLs.filter((item) => item !== remItem);
-                        console.log("After remove: ")
-                        console.log(ingredLs);
-                    }
-                    else{
-                        console.log("Before remove: ");
-                        console.log(tagLs);
-                        //$("#tagsList li").eq(i).remove();
-                        $(this).remove();
-                        //let rem = tagLs.indexOf(item);
-                        //tagLs = tagLs.filter((item, index) => index !== rem);
-                        //console.log("After remove: ");
-                        //console.log(tagLs);
-                    }
-                }
-
                 $(document).ready(function() {
                     $("#ingredAlert").hide();
 
-                    //Checks if an ingredient is formatted correctly and adds it to the list if so when enter is pressed
+                    //Checks if an ingredient is formatted correctly and adds it to the list if so when button is clicked
                     $("#addIng").on( "click", function() {
-                        console.log("the add ingredient button worked!");
                         
                         let inarr = $("#ingredientsInput").val().split(" ");
                         let valid = inarr[0].match(/^[0-9]*\.?[0-9]+$/);
@@ -60,32 +29,29 @@
                             $("#ingredAlert").hide();
                             let curr = $("#ingredientsInput").val();
                             $("#ingredientsInput").val("");
-                            let newing = "<li class='myfont'>" + curr + "<button type='button' class='btn-close ingBtn' aria-label='Close'></button></li>";
+                            //Close button does not currently do anything
+                            let newing = "<li class='myfont'>" + curr + "<button type='button' class='btn-close' aria-label='Close'></button></li>";
                             $("#ingredientsList").append(newing);
                             ingredLs.push(curr);
+                            $("#hiddenIng").val(JSON.stringify(ingredLs));
                         }
                         else{
                             $("#ingredAlert").show();
                         }
                     });
 
-                    //Adds a new tag to the list when enter is pressed
+                    //Adds a new tag to the list when button is clicked
                     $("#addTag").on( "click", function() {
-                        console.log("the add tag button worked!");
                         let curr = $("#tagsInput").val();
-                        $("#tagsInput").val("");
-                        let newtag = "<li class='myfont'>" + curr + "<button type='button' class='btn-close' aria-label='Close' id='tagBtn'></button></li>"
-                        $("#tagsList").append(newtag);
-                        tagLs.push(curr);
+                        if(curr.length > 0){
+                            $("#tagsInput").val("");
+                            //Close button does not currently do anything
+                            let newtag = "<li class='myfont'>" + curr + "<button type='button' class='btn-close' aria-label='Close'></button></li>";
+                            $("#tagsList").append(newtag);
+                            tagLs.push(curr);
+                            $("#hiddenTags").val(JSON.stringify(tagLs));
+                        }
                     });
-
-                    $(".ingBtn").on("click", function(){
-                        console.log("hello???")
-                        console.log($(this));
-                        console.log($(this).index);
-                        $(this).remove();
-                    });
-
                 });
 
             </script>
@@ -133,6 +99,8 @@
                         <p class='alert alert-danger'><?=$message?></p>
                     <?php endif; ?>
                     <input type="hidden" name="updateInfo" value="false">
+                    <input type="hidden" name="ingredients" id="hiddenIng">
+                    <input type="hidden" name="tags" id="hiddenTags">
                     <div class="row g-3">
                         <div class="col-lg-3">
                             <div class="mb-3">

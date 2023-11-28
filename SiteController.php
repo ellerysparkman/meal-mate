@@ -2,6 +2,8 @@
 
 // https://www.w3schools.com/php/php_form_url_email.asp
 //Both Ellery and Maya worked a lot on this
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 class SiteController {
 
@@ -133,6 +135,27 @@ class SiteController {
             $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
             if (!empty($res)){
                 $currRecipe = $res;
+                //convert tags and ingredients from database string to array
+                //Check if they are empty (== "{}")
+                $tagstr = $currRecipe[0]["tags"];
+                if($tagstr == "{}"){
+                    $tagarr = [];
+                }
+                else{
+                    $tagshort = substr($tagstr, 1, -1);
+                    $striptag = str_replace("\"", "", $tagshort);
+                    $tagarr = explode(",", $striptag);
+                }
+
+                $ingstr = $currRecipe[0]["ingredients"];
+                if($ingstr == "{}"){
+                    $ingarr = [];
+                }
+                else{
+                    $ingshort = substr($ingstr, 1, -1);
+                    $striping = str_replace("\"", "", $ingshort);
+                    $ingarr = explode(",", $striping);
+                }
             }
             else {
                 header("Location: ?command=cookbook");
@@ -152,6 +175,28 @@ class SiteController {
             $res = $this->db->query("select * from recipes where recipe_id = $1;", $recipeID);
             if (!empty($res)){
                 $currRecipe = $res;
+                //convert tags and ingredients from database string to array
+                //Check if they are empty (== "{}")
+                $tagstr = $currRecipe[0]["tags"];
+                if($tagstr == "{}"){
+                    $tagarr = [];
+                }
+                else{
+                    $tagshort = substr($tagstr, 1, -1);
+                    $striptag = str_replace("\"", "", $tagshort);
+                    $tagarr = explode(",", $striptag);
+                }
+
+                $ingstr = $currRecipe[0]["ingredients"];
+                if($ingstr == "{}"){
+                    $ingarr = [];
+                }
+                else{
+                    $ingshort = substr($ingstr, 1, -1);
+                    $striping = str_replace("\"", "", $ingshort);
+                    $ingarr = explode(",", $striping);
+                }
+                
             }
             else {
                 header("Location: ?command=cookbook");
@@ -256,11 +301,37 @@ class SiteController {
             if ($updateInfo === "false"){
                 $res = $this->db->query("select * from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
                 if (empty($res)){
-                    // ADD RECIPE to recipes table, currently the tags and ingredients don't work
+                    //Builds array of ingredients if they were submitted
+                    $ingstr = "{";
+                    if(isset($_POST["ingredients"]) && !empty($_POST["ingredients"])){
+                        $ingarr = json_decode($_POST["ingredients"]);
+                        foreach($ingarr as $item){
+                            $ingstr .= $item . ", ";
+                        }
+                        //gets rid of last comma space
+                        $ingstr = substr($ingstr, 0, -2);
+                    }
+                    $ingstr .= "}";
+
+                    //Builds array of tags if they were submitted
+                    $tagstr = "{";
+                    if(isset($_POST["tags"]) && !empty($_POST["tags"])){
+                        $tagarr = json_decode($_POST["tags"]);
+                        foreach($tagarr as $tag){
+                            $tagstr .= $tag . ", ";
+                        }
+                        //gets rid of last comma space
+                        $tagstr = substr($tagstr, 0, -2);
+                    }
+                    $tagstr .= "}";
+
+                    // ADD RECIPE to recipes table
                     $this->db->query("insert into recipes (name, notes, ingredients, tags, instructions, user_id) values ($1, $2, $3, $4, $5, $6);",
-                                $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], $_SESSION["user_id"]);
+                                $_POST["recipeNameInput"], $_POST["notesTextarea"], $ingstr, $tagstr, $_POST["recipeTextarea"], $_SESSION["user_id"]);
+
                     // get recipe id and add it to user's recipe_list
                     $recipeId = $this->db->query("select recipe_id from recipes where name = $1 and user_id = $2;", $_POST["recipeNameInput"], $_SESSION["user_id"]);
+                    //$recipeId[0]["recipe_id"] is how to get the real recipe id, recipeId returns an array where the value is an array
                     $this->db->query("update users set recipe_list = array_append(recipe_list, $1) where user_id = $2;", $recipeId, $_SESSION["user_id"]);
     
                     // Send user to the appropriate page
@@ -273,10 +344,35 @@ class SiteController {
                 }
             }
             if ($updateInfo === "true") {
+                //Builds array of ingredients if they were submitted
+                $ingstr = "{";
+                if(isset($_POST["ingredients"]) && !empty($_POST["ingredients"])){
+                    $ingarr = json_decode($_POST["ingredients"]);
+                    foreach($ingarr as $item){
+                        $ingstr .= $item . ", ";
+                    }
+                    //gets rid of last comma space
+                    $ingstr = substr($ingstr, 0, -2);
+                }
+                $ingstr .= "}";
+
+                //Builds array of tags if they were submitted
+                $tagstr = "{";
+                if(isset($_POST["tags"]) && !empty($_POST["tags"])){
+                    $tagarr = json_decode($_POST["tags"]);
+                    foreach($tagarr as $tag){
+                        $tagstr .= $tag . ", ";
+                    }
+                    //gets rid of last comma space
+                    $tagstr = substr($tagstr, 0, -2);
+                }
+                $tagstr .= "}";
+
                 $success = $this->db->query("update recipes set name = $1, notes = $2, 
                 ingredients = $3, tags = $4, instructions = $5 where recipe_id = $6;",
-                    $_POST["recipeNameInput"], $_POST["notesTextarea"], '{}', '{}', $_POST["recipeTextarea"], 
+                    $_POST["recipeNameInput"], $_POST["notesTextarea"], $ingstr, $tagstr, $_POST["recipeTextarea"], 
                     $_POST["recipe_id"]);
+
                 header("Location: ?command=cookbook");
             }
         }
