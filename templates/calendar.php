@@ -30,6 +30,9 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                 }
 
                 var setDays = <?php echo json_encode($loadDays); ?>;
+                var showList = <?php echo json_encode($showList); ?>;
+                console.log("showlist: " + showList);
+                var mealLs = [];
 
                 $(document).ready(function() {
 
@@ -39,15 +42,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var monday = JSON.parse(oldmon);
                         for(let i = 0; i < monday.breakfast.length; i++){
                             $("#monb").append("<p>" + monday.breakfast[i] + "</p>");
+                            mealLs.push(monday.breakfast[i]);
                         }
                         for(let i = 0; i < monday.lunch.length; i++){
                             $("#monl").append("<p>" + monday.lunch[i] + "</p>");
+                            mealLs.push(monday.lunch[i]);
                         }
                         for(let i = 0; i < monday.dinner.length; i++){
                             $("#mond").append("<p>" + monday.dinner[i] + "</p>");
+                            mealLs.push(monday.dinner[i]);
                         }
                         for(let i = 0; i < monday.other.length; i++){
                             $("#mono").append("<p>" + monday.other[i] + "</p>");
+                            mealLs.push(monday.other[i]);
                         }
 
                         //Tuesday
@@ -55,15 +62,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var tuesday = JSON.parse(oldtue);
                         for(let i = 0; i < tuesday.breakfast.length; i++){
                             $("#tueb").append("<p>" + tuesday.breakfast[i] + "</p>");
+                            mealLs.push(tuesday.breakfast[i]);
                         }
                         for(let i = 0; i < tuesday.lunch.length; i++){
                             $("#tuel").append("<p>" + tuesday.lunch[i] + "</p>");
+                            mealLs.push(tuesday.lunch[i]);
                         }
                         for(let i = 0; i < tuesday.dinner.length; i++){
                             $("#tued").append("<p>" + tuesday.dinner[i] + "</p>");
+                            mealLs.push(tuesday.dinner[i]);
                         }
                         for(let i = 0; i < tuesday.other.length; i++){
                             $("#tueo").append("<p>" + tuesday.other[i] + "</p>");
+                            mealLs.push(tuesday.other[i]);
                         }
 
                         //Wednesday
@@ -71,15 +82,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var wednesday = JSON.parse(oldwed);
                         for(let i = 0; i < wednesday.breakfast.length; i++){
                             $("#wedb").append("<p>" + wednesday.breakfast[i] + "</p>");
+                            mealLs.push(wednesday.breakfast[i]);
                         }
                         for(let i = 0; i < wednesday.lunch.length; i++){
                             $("#wedl").append("<p>" + wednesday.lunch[i] + "</p>");
+                            mealLs.push(wednesday.lunch[i]);
                         }
                         for(let i = 0; i < wednesday.dinner.length; i++){
                             $("#wedd").append("<p>" + wednesday.dinner[i] + "</p>");
+                            mealLs.push(wednesday.dinner[i]);
                         }
                         for(let i = 0; i < wednesday.other.length; i++){
                             $("#wedo").append("<p>" + wednesday.other[i] + "</p>");
+                            mealLs.push(wednesday.other[i]);
                         }
 
                         //Thursday
@@ -87,15 +102,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var thursday = JSON.parse(oldthu);
                         for(let i = 0; i < thursday.breakfast.length; i++){
                             $("#thub").append("<p>" + thursday.breakfast[i] + "</p>");
+                            mealLs.push(thursday.breakfast[i]);
                         }
                         for(let i = 0; i < thursday.lunch.length; i++){
                             $("#thul").append("<p>" + thursday.lunch[i] + "</p>");
+                            mealLs.push(thursday.lunch[i]);
                         }
                         for(let i = 0; i < thursday.dinner.length; i++){
                             $("#thud").append("<p>" + thursday.dinner[i] + "</p>");
+                            mealLs.push(thursday.dinner[i]);
                         }
                         for(let i = 0; i < thursday.other.length; i++){
                             $("#thuo").append("<p>" + thursday.other[i] + "</p>");
+                            mealLs.push(thursday.other[i]);
                         }
 
                         //Friday
@@ -103,15 +122,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var friday = JSON.parse(oldfri);
                         for(let i = 0; i < friday.breakfast.length; i++){
                             $("#frib").append("<p>" + friday.breakfast[i] + "</p>");
+                            mealLs.push(friday.breakfast[i]);
                         }
                         for(let i = 0; i < friday.lunch.length; i++){
                             $("#fril").append("<p>" + friday.lunch[i] + "</p>");
+                            mealLs.push(friday.lunch[i]);
                         }
                         for(let i = 0; i < friday.dinner.length; i++){
                             $("#frid").append("<p>" + friday.dinner[i] + "</p>");
+                            mealLs.push(friday.dinner[i]);
                         }
                         for(let i = 0; i < friday.other.length; i++){
                             $("#frio").append("<p>" + friday.other[i] + "</p>");
+                            mealLs.push(friday.other[i]);
                         }
 
                         //Saturday
@@ -119,15 +142,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var saturday = JSON.parse(oldsat);
                         for(let i = 0; i < saturday.breakfast.length; i++){
                             $("#satb").append("<p>" + saturday.breakfast[i] + "</p>");
+                            mealLs.push(saturday.breakfast[i]);
                         }
                         for(let i = 0; i < saturday.lunch.length; i++){
                             $("#satl").append("<p>" + saturday.lunch[i] + "</p>");
+                            mealLs.push(saturday.lunch[i]);
                         }
                         for(let i = 0; i < saturday.dinner.length; i++){
                             $("#satd").append("<p>" + saturday.dinner[i] + "</p>");
+                            mealLs.push(saturday.dinner[i]);
                         }
                         for(let i = 0; i < saturday.other.length; i++){
                             $("#sato").append("<p>" + saturday.other[i] + "</p>");
+                            mealLs.push(saturday.other[i]);
                         }
 
                         //Sunday
@@ -135,15 +162,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                         var sunday = JSON.parse(oldsun);
                         for(let i = 0; i < sunday.breakfast.length; i++){
                             $("#sunb").append("<p>" + sunday.breakfast[i] + "</p>");
+                            mealLs.push(sunday.breakfast[i]);
                         }
                         for(let i = 0; i < sunday.lunch.length; i++){
                             $("#sunl").append("<p>" + sunday.lunch[i] + "</p>");
+                            mealLs.push(sunday.lunch[i]);
                         }
                         for(let i = 0; i < sunday.dinner.length; i++){
                             $("#sund").append("<p>" + sunday.dinner[i] + "</p>");
+                            mealLs.push(sunday.dinner[i]);
                         }
                         for(let i = 0; i < sunday.other.length; i++){
                             $("#suno").append("<p>" + sunday.other[i] + "</p>");
+                            mealLs.push(sunday.other[i]);
                         }
                     }
                     else{
@@ -165,6 +196,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                     $("#frihid").val(JSON.stringify(friday));
                     $("#sathid").val(JSON.stringify(saturday));
                     $("#sunhid").val(JSON.stringify(sunday));
+                    $("#mealhid").val(JSON.stringify(mealLs));
 
                     $(".day-dropdown-item").on("click", function(){
                         $("#dayDropdown").val($(this).html());
@@ -219,8 +251,27 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             }
 
                             $("#mealNameInput").val("");
+                            //Add the new meal to the list of all meals and set the hidden value to that list
+                            mealLs.push(currMeal);
+                            $("#mealhid").val(JSON.stringify(mealLs));
                         }
                     });
+
+                    if(showList){
+                        var groceryList = <?php echo json_encode($groceryList); ?>;
+
+                        for(let i = 0; i < groceryList.length; i++){
+                            $("#groceryList").append("<p class='myfont' style='text-align:left'>" + groceryList[i] + "</p>");
+                        }
+                        $("#listPopup").css("display", "flex");
+                    }
+
+                    $("#closeList").on("click", function(){
+                        $("#listPopup").css("display", "none");
+                        showList = false;
+                    })
+
+                    
 
                 });
         </script>
@@ -297,15 +348,16 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div id="addmealBtn" class="btn addmeal-btn">
-                            <a class="myfont" >Add Meal</a>
+                            <a class="myfont" >Add</a>
                         </div>
                     </div>
-                    <div class="col-md-1">
-                        <div id="generate-list" class="btn addmeal-btn">
-                            <a class="myfont" >Generate Shopping List</a>
-                        </div>
+                    <div class="col-md-2">
+                        <form class="container" action = "?command=generatelist" method="post">
+                            <input type="hidden" name="meals" id="mealhid">
+                            <button type="submit" class="btn addmeal-btn myfont">Grocery List</button>
+                        </form>
                     </div>
                     <div class="col-md-2">
                         <form class="container" action = "?command=savecalendar" method="post">
@@ -325,18 +377,18 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
             <!-- popup for generated list -->
             <div class="hide" id="listPopup">
                 <div class="popup-box">
-                    <span class="close-btn" onclick="closePopup()">&times;</span>
-                    <h2>Grocery List:</h2>
-                    <ul>
-                        <li></li>
-                    </ul>
-                <button class="done-btn" onclick="closePopup()">Copy</button>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="myfont">Grocery List:</h3>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn-close" aria-label="Close" id="closeList"></button>
+                        </div>
+                    </div>
+                    <div id="groceryList">
+                    </div>
+                </div>
             </div>
-        </div>
-
-
-
-
 
             <div class="container mt-2">
                 <h1 class="myfont text-center">Weekly Planner</h1>
@@ -469,26 +521,4 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
-
-
-
-<script>
-
-     
-
-    document.getElementById("generate-list").addEventListener("click", function(event) {
-        // retrieve all user inputs from planner
-        // search resulting string for any existing recipes
-            // if found, add that recipe's ingredients to list
-        // else, add the string itself to list
-            // maybe with "ingredients for " ______
-            
-        document.getElementById('listPopup').style.display = 'flex';
-    });
-
-    function closePopup(){
-        document.getElementById('listPopup').style.display = 'none';
-    }
- </script>
-
 </html>

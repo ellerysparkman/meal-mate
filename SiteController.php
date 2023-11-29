@@ -51,6 +51,9 @@ class SiteController {
             case "savecalendar":
                 $this->saveCalendar();
                 break;
+            case "generatelist":
+                $this->generateList();
+                break;
             case "viewrecipe":
                 $this->showRecipe();
                 break;
@@ -88,6 +91,20 @@ class SiteController {
     public function showCalendar(){
 
         $loadDays = false;
+        $showList = false;
+        $groceryList = [];
+
+        //If showgroceries is true, set grocery list
+        if(isset($_SESSION["showGroceries"]) && !empty($_SESSION["showGroceries"])){
+            $showList = $_SESSION["showGroceries"];
+            if($showList){
+                if(isset($_SESSION["groceries"]) && !empty($_SESSION["groceries"])){
+
+                    $groceryList = $_SESSION["groceries"];
+                }
+                $_SESSION["showGroceries"] = false;
+            }
+        }
 
         //Check that user is logged in
         if(isset($_SESSION["user_id"]) && !empty($_SESSION["user_id"])){
@@ -128,6 +145,54 @@ class SiteController {
             return;
         }
         
+    }
+
+    //Generates a shopping list for meals on calendar, including ones not saved in database
+    public function generateList(){
+        //Check if there is a list of meals
+        if(isset($_POST["meals"]) && !empty($_POST["meals"])){
+            $mealList = json_decode($_POST["meals"]);
+            $combineIng = [];
+            //For each meal in calendar, find ingredients
+            foreach($mealList as $meal){
+                $currStr = "%" . $meal . "%";
+                $res = $this->db->query("select ingredients from recipes where name like $1 and user_id = $2;", $currStr, $_SESSION["user_id"]);
+                //If ingredients exist, split into array
+                if(!empty($res)){
+                    $ingstr = $res[0]["ingredients"];
+                    $ingshort = substr($ingstr, 1, -1);
+                    $striping = str_replace("\"", "", $ingshort);
+                    $ingarr = explode(",", $striping);
+                    //Insert each ingredient into array with name as key and amount as value
+                    foreach($ingarr as $item){
+                        $num = strpos($item, " ");
+                        $ammount = substr($item, 0, $num);
+                        $ingredient = substr($item, $num);
+                        if(array_key_exists($ingredient, $combineIng)){
+                            $combineIng[$ingredient] += $ammount;
+                        }
+                        else{
+                            $combineIng[$ingredient] = $ammount;
+                        }
+                    }
+                }
+                else{
+                    $combineIng["x ingredients for " . $meal] = 1;
+                }
+
+            }
+
+            ksort($combineIng);
+            $finarr = [];
+            foreach($combineIng as $k => $v){
+                $currStr = $v . $k;
+                array_push($finarr, $currStr);
+            }
+            $_SESSION["groceries"] = $finarr;
+            $_SESSION["showGroceries"] = true;
+        }
+        header("Location: ?command=calendar");
+        return;
     }
 
     //The cookbook screen which displays a grid of cards of a user's recipes
@@ -417,7 +482,11 @@ class SiteController {
                     $_POST["recipeNameInput"], $_POST["notesTextarea"], $ingstr, $tagstr, $_POST["recipeTextarea"], 
                     $_POST["recipe_id"]);
 
+                //$res = $this->db->query("select * from recipes where recipe_id = $1", $_POST["recipe_id"]);
+                //var_dump($res);
+
                 header("Location: ?command=cookbook");
+                return;
             }
         }
         else {
