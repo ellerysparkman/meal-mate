@@ -310,6 +310,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
             </div>
         </nav>
         <div class="container">
+<<<<<<< HEAD
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3 row" style="padding-top:30px">
@@ -521,4 +522,68 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
+
+
+
+<script>
+    document.getElementById("generate-list").addEventListener("click", function(event) {
+        // retrieve all user inputs from planner
+        // search resulting string for any existing recipes
+            // if found, add that recipe's ingredients to list
+        // else, add the string itself to list
+            // maybe with "ingredients for " ______
+
+        document.getElementById('listPopup').style.display = 'flex';
+    });
+
+    function closePopup(){
+        document.getElementById('listPopup').style.display = 'none';
+    }
+
+
+    function addMeal(formId) {
+        var mealTextArea = document.getElementById(formId).getElementsByTagName('textarea')[0];
+        var mealValue = mealTextArea.value;
+        var outputElement = document.getElementById(formId + 'Output');
+        outputElement.innerHTML += '<p>' +  mealValue + '</p>';
+        mealTextArea.value = '';    
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+            // adds user's meal input to page on click of add btn
+            var addButtons = document.querySelectorAll('.add-btn');
+            addButtons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var form = button.parentElement;
+                    var formId = form.id; 
+                    addMeal(formId);
+                });
+            });
+
+            // allow edits
+            var addedMeals = document.querySelectorAll('.added-cal-meal');
+            addedMeals.forEach(function (addedMeal) {
+                addedMeal.addEventListener('click', function () {
+                    var toEdit = document.createElement('textarea');
+                    toEdit.value = addedMeal.textContent.trim();
+                    addedMeal.innerHTML = '';
+                    addedMeal.appendChild(toEdit);
+
+                    // Focus on the textarea for editing
+                    toEdit.focus();
+
+                    // Add blur event listener to save changes when the textarea loses focus
+                    toEdit.addEventListener('blur', function () {
+                        addedMeal.innerHTML += toEdit.value;
+                    });
+                });
+            });
+
+    });
+
+ </script>
+
 </html>

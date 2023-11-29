@@ -8,7 +8,7 @@ ini_set("display_errors", 1);
 class SiteController {
 
     private $input = [];
-    private $db;
+    public $db;
     private $errorMessage = "";
 
     public function __construct($input) {
@@ -70,7 +70,8 @@ class SiteController {
     }
 
     //The log in/log out page
-    public function showWelcome(){       
+    public function showWelcome(){    
+        $count = 0;   
         $message = "";
         if (!empty($this->errorMessage))
             $message .= "<p class='alert alert-danger'>".$this->errorMessage."</p>";
@@ -79,10 +80,15 @@ class SiteController {
 
         if(isset($_SESSION["name"])){
             $name = $_SESSION["name"];
+            $user_id = $_SESSION["user_id"];
             $loggedIn = true;
             $res = $this->db->query("select name, email from users where name = $1;", $name);
             $info = json_encode($res, JSON_PRETTY_PRINT);
         }
+
+        // $userInfo = getUserInfoFromDatabase();
+        // // Return user information as JSON
+        // echo json_encode($userInfo);
 
         include("templates/welcome.php");
     }
@@ -514,6 +520,12 @@ class SiteController {
         return $res;
     }
 
+    // public function getUserInfo(){
+    //     if(isset($_SESSION["name"])){
+    //         $name = $_SESSION["name"];
+    //         $res = $this->db->query("select email from users where name = $1;", $name);
+    //         return $res}
+    // }
 
     //Logs the user out and directs them to the log in page
     public function logout(){

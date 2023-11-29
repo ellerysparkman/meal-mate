@@ -11,9 +11,8 @@
     font-family: 'Courier New', Courier, monospace;
     color:#212b5c;
     font-size: 15px;
-
-
 }
+
 .planner {
     display: flex;
     flex-wrap: wrap;
@@ -124,6 +123,12 @@ body {
     border-radius: 18px;
     font-size: 18px;
     transition: #1d3c0e 0.3s ease; 
+}
+
+.homepage-btn {
+
+    background-color: #64793c; 
+
 }
 
 .btn-marg {
