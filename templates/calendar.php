@@ -313,15 +313,16 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3 row" style="padding-top:30px">
-                            <label for="mealNameInput" class="col-sm-2 col-form-label myfont">Meal name</label>
-                            <div class="col-sm-10">
+                        <div class="col-sm-10">
+
+                            <label for="mealNameInput" class=" col-form-label myfont">Meal Name:</label>
                                 <input type="text" class="form-control myfont" id="mealNameInput" placeholder="Meal">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle addmeal-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dayDropdown" value="Sunday">
+                            <button class="btn btn-secondary dropdown-toggle addmeal-btn myfont" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dayDropdown" value="Sunday">
                                 Sunday
                             </button>
                             <ul class="dropdown-menu">
@@ -337,7 +338,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                     </div>
                     <div class="col-md-2">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle addmeal-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="mealDropdown" value="Breakfast">
+                            <button class="btn btn-secondary dropdown-toggle addmeal-btn myfont" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="mealDropdown" value="Breakfast">
                                 Breakfast
                             </button>
                             <ul class="dropdown-menu">
@@ -356,7 +357,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                     <div class="col-md-2">
                         <form class="container" action = "?command=generatelist" method="post">
                             <input type="hidden" name="meals" id="mealhid">
-                            <button type="submit" class="btn addmeal-btn myfont">Grocery List</button>
+                            <button type="submit" class="btn addmeal-btn myfont">See Grocery List</button>
                         </form>
                     </div>
                     <div class="col-md-2">
