@@ -54,14 +54,14 @@
         <?php if($loggedIn) : ?>
             <div class="row jumbotron">
                 <div class="col jumbotron-image">
-                    <img style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
+                    <img id ="mealprep2" style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
                 </div>
                 <div class= "col jumbotron-text">
                     <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate, <?=$name?>!</h1>
                     <p style="font-weight: bold; color: rgb(231, 230, 206)" class="myfont-alt">This can be your calendar, cookbook, and Pinterest board all in one. Plan your meals for the week with our easy-to-use calendar feature. Share your favorite recipes with friends. Add recipes to your cookbook that you want to cook again. Start today! </p>
-                    <div class="btn addmeal-btn">
+                    <div class="btn homepage-btn" id = "bottom-button" onmouseover = "change()" onmouseout = "reverse()">
                         <!-- Button leads to the user's cookbook-->
-                        <a class="myfont" href="?command=cookbook">Go to your cookbook!</a>
+                        <a class="myfont" id="mytext" href="?command=cookbook">Go to your cookbook!</a>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
         <?php else : ?>
             <div class="row jumbotron">
                 <div class="col jumbotron-image">
-                    <img style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
+                    <img id="mealprep" style="height: 370px" src="images/mealprep-transparent.png" alt="meal prep image">
                 </div>
                 <div class= "col jumbotron-text">
                     <h1 style="color:#a7c178; font-weight: bold" class ="myfont">welcome to mealmate!</h1>
@@ -82,5 +82,26 @@
             </div>
         <?php endif; ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script>
+
+            function change(){
+                var bottomButton = document.getElementById("bottom-button");
+                var text = document.getElementById("mytext");
+                if (bottomButton) {
+                    bottomButton.style.backgroundColor = '#212b5c';  
+                    mytext.style.color = "rgb(231, 230, 206)";   
+
+            }}
+            function reverse(){
+                var bottomButton = document.getElementById("bottom-button");
+                var text = document.getElementById("mytext");
+                if (bottomButton) {
+                    bottomButton.style.backgroundColor = '#64793c';    
+                    text.style.color = '#0e1744'; 
+            }}
+
+            
+            </script>
     </body>
+
 </html>

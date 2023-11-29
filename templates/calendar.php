@@ -344,7 +344,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
             // if found, add that recipe's ingredients to list
         // else, add the string itself to list
             // maybe with "ingredients for " ______
-            
+
         document.getElementById('listPopup').style.display = 'flex';
     });
 
