@@ -319,7 +319,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-sm-6">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle addmeal-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dayDropdown" value="Sunday">
                                 Sunday
@@ -335,7 +335,7 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-sm-6">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle addmeal-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="mealDropdown" value="Breakfast">
                                 Breakfast
@@ -348,12 +348,12 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-1 col-sm-6">
                         <div id="addmealBtn" class="btn addmeal-btn">
                             <a class="myfont" >Add</a>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-sm-6">
                         <form class="container" action = "?command=generatelist" method="post">
                             <input type="hidden" name="meals" id="mealhid">
                             <button type="submit" class="btn addmeal-btn myfont">Grocery List</button>
