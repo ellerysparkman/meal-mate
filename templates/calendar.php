@@ -31,7 +31,6 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
 
                 var setDays = <?php echo json_encode($loadDays); ?>;
                 var showList = <?php echo json_encode($showList); ?>;
-                console.log("showlist: " + showList);
                 var mealLs = [];
 
                 $(document).ready(function() {
@@ -310,19 +309,19 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
             </div>
         </nav>
         <div class="container">
-<<<<<<< HEAD
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3 row" style="padding-top:30px">
-                            <label for="mealNameInput" class="col-sm-2 col-form-label myfont">Meal name</label>
-                            <div class="col-sm-10">
+                        <div class="col-sm-10">
+
+                            <label for="mealNameInput" class=" col-form-label myfont">Meal Name:</label>
                                 <input type="text" class="form-control myfont" id="mealNameInput" placeholder="Meal">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-6">
+                    <div class="col-md-2">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle addmeal-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dayDropdown" value="Sunday">
+                            <button class="btn btn-secondary dropdown-toggle addmeal-btn myfont" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="dayDropdown" value="Sunday">
                                 Sunday
                             </button>
                             <ul class="dropdown-menu">
@@ -336,9 +335,9 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-6">
+                    <div class="col-md-2">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle addmeal-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="mealDropdown" value="Breakfast">
+                            <button class="btn btn-secondary dropdown-toggle addmeal-btn myfont" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="mealDropdown" value="Breakfast">
                                 Breakfast
                             </button>
                             <ul class="dropdown-menu">
@@ -349,15 +348,15 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-1 col-sm-6">
+                    <div class="col-md-1">
                         <div id="addmealBtn" class="btn addmeal-btn">
                             <a class="myfont" >Add</a>
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-6">
+                    <div class="col-md-2">
                         <form class="container" action = "?command=generatelist" method="post">
                             <input type="hidden" name="meals" id="mealhid">
-                            <button type="submit" class="btn addmeal-btn myfont">Grocery List</button>
+                            <button type="submit" class="btn addmeal-btn myfont">See Grocery List</button>
                         </form>
                     </div>
                     <div class="col-md-2">
@@ -522,68 +521,4 @@ https://mdbootstrap.com/docs/b4/jquery/plugins/full-calendar/
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
-
-
-
-<script>
-    document.getElementById("generate-list").addEventListener("click", function(event) {
-        // retrieve all user inputs from planner
-        // search resulting string for any existing recipes
-            // if found, add that recipe's ingredients to list
-        // else, add the string itself to list
-            // maybe with "ingredients for " ______
-
-        document.getElementById('listPopup').style.display = 'flex';
-    });
-
-    function closePopup(){
-        document.getElementById('listPopup').style.display = 'none';
-    }
-
-
-    function addMeal(formId) {
-        var mealTextArea = document.getElementById(formId).getElementsByTagName('textarea')[0];
-        var mealValue = mealTextArea.value;
-        var outputElement = document.getElementById(formId + 'Output');
-        outputElement.innerHTML += '<p>' +  mealValue + '</p>';
-        mealTextArea.value = '';    
-    }
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-            // adds user's meal input to page on click of add btn
-            var addButtons = document.querySelectorAll('.add-btn');
-            addButtons.forEach(function (button) {
-                button.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    var form = button.parentElement;
-                    var formId = form.id; 
-                    addMeal(formId);
-                });
-            });
-
-            // allow edits
-            var addedMeals = document.querySelectorAll('.added-cal-meal');
-            addedMeals.forEach(function (addedMeal) {
-                addedMeal.addEventListener('click', function () {
-                    var toEdit = document.createElement('textarea');
-                    toEdit.value = addedMeal.textContent.trim();
-                    addedMeal.innerHTML = '';
-                    addedMeal.appendChild(toEdit);
-
-                    // Focus on the textarea for editing
-                    toEdit.focus();
-
-                    // Add blur event listener to save changes when the textarea loses focus
-                    toEdit.addEventListener('blur', function () {
-                        addedMeal.innerHTML += toEdit.value;
-                    });
-                });
-            });
-
-    });
-
- </script>
-
 </html>

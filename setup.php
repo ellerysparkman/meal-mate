@@ -1,10 +1,10 @@
 <?php
 
-    $host = "db";
+    $host = "localhost";
     $port = "5432";
-    $database = "example";
-    $user = "localuser";
-    $password = "cs4640LocalUser!";
+    $database = "msh3dvn";
+    $user = "msh3dvn";
+    $password = "iwes5ccRPh8H";
 
     $dbHandle = pg_connect("host=$host port=$port dbname=$database user=$user password=$password");
 

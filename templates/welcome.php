@@ -10,6 +10,55 @@
         <link rel="stylesheet" type="text/css" href="styles/main.css">
         <title>MealMate acount</title>   
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            //arrow function
+            const add = a => a + 1;
+
+            $(document).ready(function () {
+
+                loginAttempts = document.getElementById("login-attempts");
+                loginButton = document.getElementById("login-btn");
+                var score = parseInt(sessionStorage.getItem("loginAttempts")) || 0;
+                if (loginAttempts){
+                    loginAttempts.innerHTML = score;
+                }
+
+                if (loginButton){
+                    loginButton.addEventListener("click", function(event){
+                        score = add(score);
+                        var count = document.getElementById("login-attempts").textContent = score;
+                        sessionStorage.setItem("loginAttempts", score);
+                        console.log(count);
+                    });
+                }
+
+                $("#more-details").on("click", function(){
+                    $.ajax({
+                        type: "GET",
+                        url: "?command=getemail",
+                        dataType: 'json',
+                        success: function(response){
+                            document.getElementById("emailp").innerHTML = "Email: " + response;
+                            document.getElementById("emailp").style.display = 'block';
+                            document.getElementById("hide-details").style.width = '100px';
+                            document.getElementById("hide-details").style.display = 'block';
+                        },
+                        error: function(xhr, status, error){
+                            console.error("AJAX Error:", status, error);
+                            console.log("Response Text:", xhr.responseText);}
+                    });
+
+                    event.preventDefault();
+
+                });
+
+                $("#hide-details").on("click", function(){
+                    document.getElementById("emailp").style.display = 'none';
+                    document.getElementById("hide-details").style.display = 'none';
+
+                });
+            });
+        </script>
 
     </head>
     <body>
@@ -52,18 +101,16 @@
                     <h5>You are currently logged in as <?=$name?>!</h5>
                     <br>
                     <h5>User information</h5>
-                    <p>First Name: <span id="fname"></span> </p>
-                    <p>Last Name: <span id="lname"></span></p>
                     <form>
-                        <button id="more-details" type="submit" class="btn btn-primary">More Details</button>
+                        <button id="more-details" type="submit" class="btn addmeal-btn">Show email</button>
                     </form>
-                    <div id="details-container"></div>
-                    <button id="hide-details" style="display:none;" type="submit" class="btn btn-primary">Hide Details</button>
-
-                    <?php echo "<script>var jsID = '" . $user_id . "';</script>"; ?>
+                    <div id="details-container">
+                        <p id="emailp" style="display:none"></p>
+                    </div>
+                    <button id="hide-details" style="display:none;" type="submit" class="btn addmeal-btn">Hide email</button>
 
                     <form action="?command=logout" method="post">
-                        <button type="submit" class="btn btn-primary">Log out</button>
+                        <button type="submit" class="btn addmeal-btn">Log out</button>
                     </form>
                 </div>
             </div>
@@ -73,7 +120,7 @@
                     
                     <h1>Welcome to mealmate!</h1>
                     <h5>Already got an account? Log in here!</h5>
-                    <p style="margin-left: 900px">Login Attempts: <span id="login-attempts"></span></p>
+                    <p style="float:right">Login Attempts: <span id="login-attempts"></span></p>
 
                     <p> <?=$message?></p>
 
@@ -111,73 +158,5 @@
             </div>
         <?php endif; ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
     </body>
-    <script>
-        $(document).ready(function () {
-            loginAttempts = document.getElementById("login-attempts");
-            loginButton = document.getElementById("login-btn");
-            var score = parseInt(sessionStorage.getItem("loginAttempts")) || 0;
-            if (loginAttempts){
-                loginAttempts.innerHTML = score;}
-
-            if (loginButton){
-                loginButton.addEventListener("click", function(event){
-                    score += 1;
-                    var count = document.getElementById("login-attempts").textContent = score;
-                    sessionStorage.setItem("loginAttempts", score);
-                    console.log(count);
-            });}
-
-            detailsButton = document.getElementById("more-details");
-  
-            // if user is logged in:
-            if (detailsButton){
-                $.ajax({
-                    type: "GET",
-                    url: "ajaxreq.php",
-                    dataType: 'json',
-                    data: {user_id: jsID},
-                    success: function(response){
-                        var string = JSON.stringify(response);
-                        document.getElementById("fname").innerHTML = response;
-                        },
-                    error: function(xhr, status, error){
-                        console.error("AJAX Error:", status, error);
-                        console.log("Response Text:", xhr.responseText);}
-                });
-            
-
-                detailsButton.addEventListener("click", function(event){
-                    event.preventDefault();
-                    detailsContainer = document.getElementById("details-container");
-                    var emailElement = document.createElement("p");
-                    emailElement.innerHTML = 'Email Address: ' + 'email@email';
-
-                    var idElement = document.createElement("p");
-                    idElement.innerHTML = 'User ID: ' + '123';
-
-                    detailsContainer.appendChild(emailElement);
-                    detailsContainer.appendChild(idElement);
-                    document.getElementById("hide-details").style.width = '100px';
-
-                    document.getElementById("hide-details").style.display = 'block';
-
-
-            });}
-            hideButton = document.getElementById("hide-details");
-            detailsContainer = document.getElementById("details-container");
-            if (hideButton){
-                hideButton.addEventListener("click", function(event){
-                    var hideElements = document.querySelectorAll('#details-container *');
-                    hideElements.forEach(function (element) {
-                        element.style.display = 'none';
-                    hideButton.style.display = 'none';
-            });
-        });}
-
-
-        });
-
-</script>
 </html>

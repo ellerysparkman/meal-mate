@@ -63,6 +63,9 @@ class SiteController {
             case "delete":
                 $this->deleteRecipe();
                 break;
+            case "getemail":
+                $this->getEmail();
+                break;
             default:
                 $this->showWelcome();
                 break;
@@ -91,6 +94,17 @@ class SiteController {
         // echo json_encode($userInfo);
 
         include("templates/welcome.php");
+    }
+
+    public function getEmail(){
+        if(isset($_SESSION["name"])){
+            $name = $_SESSION["name"];
+            $user_id = $_SESSION["user_id"];
+            $loggedIn = true;
+            $res = $this->db->query("select email from users where name = $1;", $name);
+            echo json_encode($res[0]["email"], JSON_PRETTY_PRINT);
+        }
+
     }
 
     //The calendar page, checks if the user has a meal plan saved in database
@@ -124,6 +138,15 @@ class SiteController {
                 $oldFri = $res[0]["friday"];
                 $oldSat = $res[0]["saturday"];
                 $oldSun = $res[0]["sunday"];
+            }
+            else{
+                $oldMon = [];
+                $oldTue = [];
+                $oldWed = [];
+                $oldThu = [];
+                $oldFri = [];
+                $oldSat = [];
+                $oldSun = [];
             }
         }
 
